@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Created by grishberg on 12.11.17.
+ * Check preferences context.
  */
 public class PreferenceContextTest {
     @Test

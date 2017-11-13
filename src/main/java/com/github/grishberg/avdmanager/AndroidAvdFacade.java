@@ -7,27 +7,34 @@ import com.github.grishberg.avdmanager.avdManager.AvdManagerWrapper;
 import com.github.grishberg.avdmanager.emulatorManager.EmulatorManagerException;
 import com.github.grishberg.avdmanager.emulatorManager.EmulatorManagerFabric;
 import com.github.grishberg.avdmanager.emulatorManager.EmulatorManagerWrapper;
+import org.gradle.api.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Facade for creating, deleting and starting emulators.
  */
 public class AndroidAvdFacade {
     private static final int TIMEOUT_FOR_CYCLE = 5;
+    private static final String STOPPED = "stopped";
+    private static final String PROPERTY_BOOTANIM = "init.svc.bootanim";
     private final EmulatorManagerWrapper emulatorManager;
     private final AdbFacade adbFacade;
     private final AvdManagerWrapper avdManager;
     private final ArrayList<AndroidEmulator> startedEmulators = new ArrayList<>();
+    private final Logger logger;
 
     public AndroidAvdFacade(PreferenceContext context,
                             AdbFacade adbFacade,
                             EmulatorManagerFabric emulatorManagerFabric,
-                            AvdManagerFabric avdManagerFabric) {
-        emulatorManager = emulatorManagerFabric.createEmulatorManagerForOs(context);
-        avdManager = avdManagerFabric.createAvdManagerForOs(context);
+                            AvdManagerFabric avdManagerFabric,
+                            Logger logger) {
+        this.logger = logger;
+        emulatorManager = emulatorManagerFabric.createEmulatorManagerForOs(context, logger);
+        avdManager = avdManagerFabric.createAvdManagerForOs(context, logger);
         this.adbFacade = adbFacade;
     }
 
@@ -38,7 +45,8 @@ public class AndroidAvdFacade {
      * @throws InterruptedException
      * @throws AvdManagerException
      */
-    public void createEmulators(EmulatorConfig[] args) throws InterruptedException, AvdManagerException {
+    public void createEmulators(EmulatorConfig[] args) throws InterruptedException,
+            AvdManagerException {
         for (EmulatorConfig arg : args) {
             avdManager.createAvd(arg);
         }
@@ -110,13 +118,22 @@ public class AndroidAvdFacade {
     }
 
     //TODO: update AndroidEmulator model with IDevice reference
-    private boolean isDeviceOnline(EmulatorConfig arg) {
+    private boolean isDeviceOnline(EmulatorConfig arg) throws InterruptedException {
         IDevice[] devices = adbFacade.getDevices();
         for (IDevice device : devices) {
             if (arg.getName().equals(device.getAvdName())) {
-                return device.isOnline();
+                return device.isOnline() && isDeviceReady(device);
             }
         }
         return false;
+    }
+
+    private boolean isDeviceReady(IDevice device) throws InterruptedException {
+        try {
+            return STOPPED.equals(device.getSystemProperty(PROPERTY_BOOTANIM).get());
+        } catch (ExecutionException e) {
+            logger.error("GetSystemProperty exception:", e);
+            return false;
+        }
     }
 }

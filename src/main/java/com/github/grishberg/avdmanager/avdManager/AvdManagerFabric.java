@@ -2,19 +2,20 @@ package com.github.grishberg.avdmanager.avdManager;
 
 import com.github.grishberg.avdmanager.PreferenceContext;
 import com.github.grishberg.avdmanager.utils.AbsProvider;
+import org.gradle.api.logging.Logger;
 
 /**
- * Created by grishberg on 12.11.17.
+ * Creates AvdManagerWrapper for current OS.
  */
 public class AvdManagerFabric extends AbsProvider {
-    public AvdManagerWrapper createAvdManagerForOs(PreferenceContext context) {
+    public AvdManagerWrapper createAvdManagerForOs(PreferenceContext context, Logger logger) {
 
         if (isWindows()) {
             throw new NoSuchMethodError();
         } else if (isMac()) {
-            return new MacAvdManagerWrapper(context);
+            return new UnixAvdManagerWrapper(context, logger);
         } else if (isUnix()) {
-            return new MacAvdManagerWrapper(context);
+            return new UnixAvdManagerWrapper(context, logger);
         } else if (isSolaris()) {
             throw new NoSuchMethodError();
         } else {

@@ -9,17 +9,20 @@ import org.junit.Test;
 /**
  * Starts emulator and waits for online state.
  */
-public class AvdFacadeInstrumentationTest {
+public class AvdFacadeInstrumentationTest extends BaseTestCaseWithLogger {
     private AndroidAvdFacade avdFacade;
     private AdbFacade adbFacade;
     private EmulatorConfig arg = new EmulatorConfig("test", DisplayMode.HDPI, 26);
+
+    public AvdFacadeInstrumentationTest() {
+    }
 
     @Before
     public void setUp() throws Exception {
         PreferenceContext context = new PreferenceContext();
         adbFacade = new AdbFacade();
         adbFacade.init();
-        avdFacade = new AndroidAvdFacade(context, adbFacade,
+        avdFacade = new AndroidAvdFacade(getLogger(), context, adbFacade,
                 new EmulatorManagerFabric(), new AvdManagerFabric());
     }
 

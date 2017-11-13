@@ -2,6 +2,8 @@ package com.github.grishberg.avdmanager.emulatorManager;
 
 import com.github.grishberg.avdmanager.AndroidEmulator;
 import com.github.grishberg.avdmanager.EmulatorConfig;
+import org.apache.commons.io.IOUtils;
+import org.gradle.api.logging.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,12 +13,14 @@ import java.util.ArrayList;
 import static com.github.grishberg.avdmanager.utils.SysUtils.UTF8;
 
 /**
- * Created by grishberg on 12.11.17.
+ * Wrapper for emulatormanager..
  */
 public abstract class EmulatorManagerWrapper {
+    private final Logger logger;
     private final String emulatorManagerPath;
 
-    public EmulatorManagerWrapper(String emulatorManagerPath) {
+    public EmulatorManagerWrapper(String emulatorManagerPath, Logger logger) {
+        this.logger = logger;
         this.emulatorManagerPath = emulatorManagerPath;
     }
 
@@ -60,31 +64,20 @@ public abstract class EmulatorManagerWrapper {
             String s;
             while ((s = stdInput.readLine()) != null) {
                 result.add(s);
+                logger.info(s);
             }
 
             // read any errors from the attempted command
             errorSb = new StringBuilder();
             while ((s = stdError.readLine()) != null) {
                 errorSb.append(s);
+                logger.error(s);
             }
         } catch (IOException e) {
             throw new EmulatorManagerException("exception while executing emulator manager", e);
         } finally {
-            if (stdInput != null) {
-                try {
-                    stdInput.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (stdError != null) {
-                try {
-                    stdError.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            IOUtils.closeQuietly(stdInput);
+            IOUtils.closeQuietly(stdError);
         }
 
         String errorString = errorSb.toString();

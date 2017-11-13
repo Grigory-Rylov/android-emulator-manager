@@ -1,18 +1,18 @@
 package com.github.grishberg.avdmanager;
 
 import com.github.grishberg.avdmanager.emulatorManager.EmulatorManagerWrapper;
-import com.github.grishberg.avdmanager.emulatorManager.MacEmulatorManagerWrapper;
+import com.github.grishberg.avdmanager.emulatorManager.UnixEmulatorManagerWrapper;
 import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Created by grishberg on 12.11.17.
+ * Integration test for EmulatorManagerWrapper.
  */
-public class EmulatorManagerWrapperTest {
+public class EmulatorManagerWrapperIntegrationTest extends BaseTestCaseWithLogger {
     @Test
     public void returnEmulatorsList() throws Exception {
         PreferenceContext context = new PreferenceContext();
-        EmulatorManagerWrapper manager = new MacEmulatorManagerWrapper(context);
+        EmulatorManagerWrapper manager = new UnixEmulatorManagerWrapper(getLogger(), context);
         String[] devices = manager.getAvdList();
         Assert.assertTrue(devices.length > 0);
     }

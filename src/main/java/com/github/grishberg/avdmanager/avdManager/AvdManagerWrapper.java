@@ -4,6 +4,7 @@ import com.github.grishberg.avdmanager.EmulatorConfig;
 import com.github.grishberg.avdmanager.PreferenceContext;
 import com.github.grishberg.avdmanager.utils.SysUtils;
 import org.apache.commons.io.IOUtils;
+import org.gradle.api.logging.Logger;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,10 +16,11 @@ import static com.github.grishberg.avdmanager.utils.SysUtils.UTF8;
  * Wrapper for avdmanager.
  */
 public abstract class AvdManagerWrapper {
-
+    private final Logger logger;
     private final String pathToAvdManager;
 
-    public AvdManagerWrapper(PreferenceContext context, String pathToAvdManager) {
+    public AvdManagerWrapper(PreferenceContext context, String pathToAvdManager, Logger logger) {
+        this.logger = logger;
         this.pathToAvdManager = context.getAndroidSdkPath() + pathToAvdManager;
     }
 
@@ -73,8 +75,7 @@ public abstract class AvdManagerWrapper {
             }
         } catch (IOException e) {
             // read any errors from the attempted command
-            System.out.println("Error>>>" +
-                    SysUtils.readStringFromInputString(process.getErrorStream()));
+            logger.error(SysUtils.readStringFromInputString(process.getErrorStream()));
             throw new AvdManagerException("Exception while creating avd", e);
         } finally {
             IOUtils.closeQuietly(stderr);
@@ -105,7 +106,7 @@ public abstract class AvdManagerWrapper {
 
             // read any errors from the attempted command
             while ((s = stdError.readLine()) != null) {
-                System.out.println("Error>>> " + s);
+                logger.error(s);
             }
         } catch (IOException e) {
             throw new AvdManagerException("exception while creating avd", e);

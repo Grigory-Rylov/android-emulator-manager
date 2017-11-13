@@ -19,7 +19,7 @@ public class MacAvdManagerTest {
     @Before
     public void setUp() throws Exception {
         PreferenceContext context = new PreferenceContext();
-        avdManagerWrapper = new MacAvdManagerWrapper(context);
+        avdManagerWrapper = new UnixAvdManagerWrapper(context);
     }
 
     @After

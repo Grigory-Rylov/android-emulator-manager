@@ -1,7 +1,7 @@
 package com.github.grishberg.avdmanager.avdManager;
 
 /**
- * Created by grishberg on 12.11.17.
+ * Exceptions for AvdManager.
  */
 public class AvdManagerException extends Exception {
     public AvdManagerException(String message, Throwable e) {

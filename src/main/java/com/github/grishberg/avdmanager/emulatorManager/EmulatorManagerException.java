@@ -1,7 +1,7 @@
 package com.github.grishberg.avdmanager.emulatorManager;
 
 /**
- * Created by grishberg on 12.11.17.
+ * Exception for EmulatorManager.
  */
 public class EmulatorManagerException extends Exception {
     public EmulatorManagerException(String message, Throwable cause) {
