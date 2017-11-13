@@ -1,5 +1,6 @@
 package com.github.grishberg.avdmanager.avdManager;
 
+import com.github.grishberg.avdmanager.BaseTestCaseWithLogger;
 import com.github.grishberg.avdmanager.DisplayMode;
 import com.github.grishberg.avdmanager.EmulatorConfig;
 import com.github.grishberg.avdmanager.PreferenceContext;
@@ -11,7 +12,7 @@ import org.junit.Test;
 /**
  * Creates and deletes AVDs with names "test1" and "test2".
  */
-public class MacAvdManagerTest {
+public class MacAvdManagerTest extends BaseTestCaseWithLogger {
     private AvdManagerWrapper avdManagerWrapper;
     private final EmulatorConfig arg1 = new EmulatorConfig("test1", DisplayMode.HDPI, 26);
     private final EmulatorConfig arg2 = new EmulatorConfig("test2", DisplayMode.HDPI, 26);
@@ -19,7 +20,7 @@ public class MacAvdManagerTest {
     @Before
     public void setUp() throws Exception {
         PreferenceContext context = new PreferenceContext();
-        avdManagerWrapper = new UnixAvdManagerWrapper(context);
+        avdManagerWrapper = new UnixAvdManagerWrapper(context, getLogger());
     }
 
     @After

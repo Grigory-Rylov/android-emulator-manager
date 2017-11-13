@@ -12,7 +12,7 @@ public class EmulatorManagerWrapperIntegrationTest extends BaseTestCaseWithLogge
     @Test
     public void returnEmulatorsList() throws Exception {
         PreferenceContext context = new PreferenceContext();
-        EmulatorManagerWrapper manager = new UnixEmulatorManagerWrapper(getLogger(), context);
+        EmulatorManagerWrapper manager = new UnixEmulatorManagerWrapper(context, getLogger());
         String[] devices = manager.getAvdList();
         Assert.assertTrue(devices.length > 0);
     }
