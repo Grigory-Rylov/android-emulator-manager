@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import static com.github.grishberg.avdmanager.utils.SysUtils.UTF8;
+
 /**
  * Created by grishberg on 12.11.17.
  */
@@ -49,10 +51,10 @@ public abstract class EmulatorManagerWrapper {
         try {
             proc = rt.exec(emulatorManagerPath + " -list-avds");
             stdInput = new BufferedReader(new
-                    InputStreamReader(proc.getInputStream()));
+                    InputStreamReader(proc.getInputStream(), UTF8));
 
             stdError = new BufferedReader(new
-                    InputStreamReader(proc.getErrorStream()));
+                    InputStreamReader(proc.getErrorStream(), UTF8));
 
             // read the output from the command
             String s;

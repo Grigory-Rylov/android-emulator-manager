@@ -3,15 +3,19 @@ package com.github.grishberg.avdmanager.avdManager;
 import com.github.grishberg.avdmanager.EmulatorConfig;
 import com.github.grishberg.avdmanager.PreferenceContext;
 import com.github.grishberg.avdmanager.utils.SysUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.grishberg.avdmanager.utils.SysUtils.UTF8;
+
 /**
  * Wrapper for avdmanager.
  */
 public abstract class AvdManagerWrapper {
+
     private final String pathToAvdManager;
 
     public AvdManagerWrapper(PreferenceContext context, String pathToAvdManager) {
@@ -30,7 +34,6 @@ public abstract class AvdManagerWrapper {
 
         // Redirect process's stderr to a stream, for logging purposes
         ByteArrayOutputStream stderr = new ByteArrayOutputStream();
-        new ErrorReaderThread(process.getErrorStream(), stderr).start();
         // Command may prompt us whether we want to further customise the AVD.
         // Just "press" Enter to continue with the selected target's defaults.
         try {
@@ -43,7 +46,8 @@ public abstract class AvdManagerWrapper {
                 // Check whether the process has exited badly, as sometimes no output is valid.
                 // e.g. When creating an AVD with Google APIs, no user input is requested.
                 if (process.waitFor() != 0) {
-                    throw new AvdManagerException(stderr.toString());
+
+                    throw new AvdManagerException(SysUtils.readStringFromInputString(process.getErrorStream()));
                 }
                 processAlive = false;
             }
@@ -68,8 +72,12 @@ public abstract class AvdManagerWrapper {
                 isAvdCreated = SysUtils.getAvdConfig(arg.getName()).exists();
             }
         } catch (IOException e) {
+            // read any errors from the attempted command
+            System.out.println("Error>>>" +
+                    SysUtils.readStringFromInputString(process.getErrorStream()));
             throw new AvdManagerException("Exception while creating avd", e);
         } finally {
+            IOUtils.closeQuietly(stderr);
             process.destroy();
         }
         return isAvdCreated;
@@ -78,17 +86,16 @@ public abstract class AvdManagerWrapper {
     public boolean deleteAvd(EmulatorConfig arg) throws InterruptedException, AvdManagerException {
         Runtime rt = Runtime.getRuntime();
         Process proc;
-        StringBuilder errorSb;
         BufferedReader stdInput = null;
         BufferedReader stdError = null;
         boolean isCreated = false;
         try {
             proc = rt.exec(buildDeleteAvdCommand(arg));
             stdInput = new BufferedReader(new
-                    InputStreamReader(proc.getInputStream()));
+                    InputStreamReader(proc.getInputStream(), UTF8));
 
             stdError = new BufferedReader(new
-                    InputStreamReader(proc.getErrorStream()));
+                    InputStreamReader(proc.getErrorStream(), UTF8));
 
             // read the output from the command
             String s;
@@ -103,21 +110,8 @@ public abstract class AvdManagerWrapper {
         } catch (IOException e) {
             throw new AvdManagerException("exception while creating avd", e);
         } finally {
-            if (stdInput != null) {
-                try {
-                    stdInput.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (stdError != null) {
-                try {
-                    stdError.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            IOUtils.closeQuietly(stdInput);
+            IOUtils.closeQuietly(stdError);
         }
         return isCreated;
     }
@@ -157,36 +151,5 @@ public abstract class AvdManagerWrapper {
         params.add("-n");
         params.add(arg.getName());
         return params.toArray(new String[params.size()]);
-    }
-
-    private static class ErrorReaderThread extends Thread {
-        private final InputStream procErrorStream;
-        private final OutputStream stdError;
-
-        ErrorReaderThread(InputStream procErrorStream, OutputStream stdError) {
-            this.procErrorStream = procErrorStream;
-            this.stdError = stdError;
-        }
-
-        @Override
-        public void run() {
-            int size;
-            byte[] errorBuffer = new byte[4096];
-            try {
-                while ((size = procErrorStream.read(errorBuffer)) > 0) {
-                    stdError.write(errorBuffer, 0, size);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (stdError != null) {
-                    try {
-                        stdError.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
     }
 }

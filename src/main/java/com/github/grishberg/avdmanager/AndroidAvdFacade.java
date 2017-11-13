@@ -113,7 +113,7 @@ public class AndroidAvdFacade {
     private boolean isDeviceOnline(EmulatorConfig arg) {
         IDevice[] devices = adbFacade.getDevices();
         for (IDevice device : devices) {
-            if (device.getAvdName().equals(arg.getName())) {
+            if (arg.getName().equals(device.getAvdName())) {
                 return device.isOnline();
             }
         }

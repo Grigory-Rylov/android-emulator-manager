@@ -9,10 +9,10 @@ import org.junit.Test;
 /**
  * Starts emulator and waits for online state.
  */
-public class AvdFacadeTest {
+public class AvdFacadeInstrumentationTest {
     private AndroidAvdFacade avdFacade;
     private AdbFacade adbFacade;
-    private EmulatorConfig arg = new EmulatorConfig("26", DisplayMode.HDPI, 26);
+    private EmulatorConfig arg = new EmulatorConfig("test", DisplayMode.HDPI, 26);
 
     @Before
     public void setUp() throws Exception {
@@ -31,7 +31,10 @@ public class AvdFacadeTest {
     @Test
     public void runEmulator() throws Exception {
         EmulatorConfig[] args = {arg};
+        avdFacade.createEmulators(args);
         avdFacade.startEmulators(args);
         avdFacade.waitForEmulatorStarts(args, 30 * 1000);
+        avdFacade.stopRunningEmulators();
+        avdFacade.deleteEmulators(args);
     }
 }

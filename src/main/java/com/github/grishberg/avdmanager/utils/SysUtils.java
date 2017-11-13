@@ -1,17 +1,33 @@
 package com.github.grishberg.avdmanager.utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.Charset;
 
 /**
  * Created by grishberg on 12.11.17.
  */
 public class SysUtils {
+    public static final Charset UTF8 = Charset.forName("UTF-8");
+
     public static File getAvdHomeDir() {
         String homeDir = System.getenv("HOME");
         return new File(homeDir, ".android/avd");
+    }
+
+    public static String readStringFromInputString(InputStream is) {
+        String s;
+        BufferedReader stdError = new BufferedReader(
+                new InputStreamReader(is, UTF8));
+        StringBuilder errorSb = new StringBuilder();
+        try {
+            while ((s = stdError.readLine()) != null) {
+                errorSb.append(s);
+                errorSb.append("\n");
+            }
+        } catch (IOException e) {
+            return e.getLocalizedMessage();
+        }
+        return errorSb.toString();
     }
 
     public static File getAvdConfig(String name) {
