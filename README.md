@@ -1,0 +1,1 @@
+Gradle plugin for creating, deleting, starting and waiting Android emulators (AVD)
