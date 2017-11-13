@@ -9,6 +9,7 @@ import com.github.grishberg.avdmanager.emulatorManager.EmulatorManagerFabric;
 import com.github.grishberg.avdmanager.emulatorManager.EmulatorManagerWrapper;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 /**
@@ -90,14 +91,18 @@ public class AndroidAvdFacade {
      */
     public void waitForEmulatorStarts(EmulatorConfig[] args, long timeout)
             throws InterruptedException, AvdFacadeException {
+        HashSet<String> onlineDevices = new HashSet<>();
         long timeoutTime = System.currentTimeMillis() + timeout;
         boolean allEmulatorsAreOnline = false;
 
         while (!allEmulatorsAreOnline && System.currentTimeMillis() < timeoutTime) {
-            for (EmulatorConfig arg : args) {
-                allEmulatorsAreOnline |= isDeviceOnline(arg);
-            }
             Thread.sleep(1000 * TIMEOUT_FOR_CYCLE);
+            for (EmulatorConfig arg : args) {
+                if (isDeviceOnline(arg)) {
+                    onlineDevices.add(arg.getName());
+                }
+            }
+            allEmulatorsAreOnline = onlineDevices.size() == args.length;
         }
         if (!allEmulatorsAreOnline) {
             throw new AvdFacadeException();

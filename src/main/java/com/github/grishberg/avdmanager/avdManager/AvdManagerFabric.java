@@ -14,7 +14,7 @@ public class AvdManagerFabric extends AbsProvider {
         } else if (isMac()) {
             return new MacAvdManagerWrapper(context);
         } else if (isUnix()) {
-            throw new NoSuchMethodError();
+            return new MacAvdManagerWrapper(context);
         } else if (isSolaris()) {
             throw new NoSuchMethodError();
         } else {

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by grishberg on 12.11.17.
+ * Wrapper for avdmanager.
  */
 public abstract class AvdManagerWrapper {
     private final String pathToAvdManager;
@@ -19,8 +19,6 @@ public abstract class AvdManagerWrapper {
     }
 
     public boolean createAvd(EmulatorConfig arg) throws InterruptedException, AvdManagerException {
-        Runtime rt = Runtime.getRuntime();
-
         boolean isAvdCreated = false;
         Process process;
         try {
@@ -32,7 +30,6 @@ public abstract class AvdManagerWrapper {
 
         // Redirect process's stderr to a stream, for logging purposes
         ByteArrayOutputStream stderr = new ByteArrayOutputStream();
-        ByteArrayOutputStream stdout = new ByteArrayOutputStream();
         new ErrorReaderThread(process.getErrorStream(), stderr).start();
         // Command may prompt us whether we want to further customise the AVD.
         // Just "press" Enter to continue with the selected target's defaults.
@@ -63,21 +60,6 @@ public abstract class AvdManagerWrapper {
 
             //TODO: read in to stdout to debug.
             SysUtils.copyStream(in, System.out);
-            /*
-            BufferedReader stdInput = new BufferedReader(new
-                    InputStreamReader(process.getInputStream()));
-
-            // read the output from the command
-            StringBuilder sbResult = new StringBuilder();
-            String s;
-            while ((s = stdInput.readLine()) != null) {
-                System.out.println(s);
-            }
-            System.out.println(sbResult.toString());
-*/
-
-            //len = in.read();
-
             in.close();
 
             // Wait for happy ending
@@ -92,7 +74,6 @@ public abstract class AvdManagerWrapper {
         }
         return isAvdCreated;
     }
-
 
     public boolean deleteAvd(EmulatorConfig arg) throws InterruptedException, AvdManagerException {
         Runtime rt = Runtime.getRuntime();
@@ -116,9 +97,7 @@ public abstract class AvdManagerWrapper {
             }
 
             // read any errors from the attempted command
-            errorSb = new StringBuilder();
             while ((s = stdError.readLine()) != null) {
-                errorSb.append(s);
                 System.out.println("Error>>> " + s);
             }
         } catch (IOException e) {
@@ -179,6 +158,7 @@ public abstract class AvdManagerWrapper {
         params.add(arg.getName());
         return params.toArray(new String[params.size()]);
     }
+
     private static class ErrorReaderThread extends Thread {
         private final InputStream procErrorStream;
         private final OutputStream stdError;

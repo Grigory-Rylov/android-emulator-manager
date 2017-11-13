@@ -14,7 +14,7 @@ public class EmulatorManagerFabric extends AbsProvider {
         } else if (isMac()) {
             return new MacEmulatorManagerWrapper(context);
         } else if (isUnix()) {
-            throw new NoSuchMethodError();
+            return new MacEmulatorManagerWrapper(context);
         } else if (isSolaris()) {
             throw new NoSuchMethodError();
         } else {
