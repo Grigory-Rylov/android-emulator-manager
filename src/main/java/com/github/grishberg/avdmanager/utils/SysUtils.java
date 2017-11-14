@@ -4,7 +4,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 
 /**
- * Created by grishberg on 12.11.17.
+ * Helpers methods.
  */
 public class SysUtils {
     public static final Charset UTF8 = Charset.forName("UTF-8");
@@ -17,13 +17,13 @@ public class SysUtils {
     }
 
     public static String readStringFromInputString(InputStream is) {
-        String s;
+        String line;
         BufferedReader stdError = new BufferedReader(
                 new InputStreamReader(is, UTF8));
         StringBuilder errorSb = new StringBuilder();
         try {
-            while ((s = stdError.readLine()) != null) {
-                errorSb.append(s);
+            while ((line = stdError.readLine()) != null) {
+                errorSb.append(line);
                 errorSb.append("\n");
             }
         } catch (IOException e) {
@@ -34,13 +34,5 @@ public class SysUtils {
 
     public static File getAvdConfig(String name) {
         return new File(getAvdHomeDir(), name + ".ini");
-    }
-
-    public static void copyStream(InputStream in, OutputStream out) throws IOException {
-        byte[] buf = new byte[8192];
-        int len;
-        while ((len = in.read(buf)) > 0) {
-            out.write(buf, 0, len);
-        }
     }
 }
