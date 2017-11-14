@@ -6,6 +6,8 @@ package com.github.grishberg.avdmanager.utils;
 public abstract class AbsProvider {
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
+    private AbsProvider() {/*not needed*/}
+
     protected static boolean isWindows() {
 
         return (OS.contains("win"));

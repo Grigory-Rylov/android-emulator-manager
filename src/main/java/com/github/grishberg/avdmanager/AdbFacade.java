@@ -5,7 +5,7 @@ import com.android.ddmlib.IDevice;
 import org.gradle.api.logging.Logger;
 
 /**
- * Created by grishberg on 12.11.17.
+ * Facade for adb.
  */
 public class AdbFacade {
     private final Logger logger;
@@ -27,7 +27,7 @@ public class AdbFacade {
     }
 
     public void terminate() {
-
+        // at the moment not needed
     }
 
     private void waitForAdb() {

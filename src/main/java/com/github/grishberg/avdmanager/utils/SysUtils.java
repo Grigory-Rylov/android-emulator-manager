@@ -9,6 +9,8 @@ import java.nio.charset.Charset;
 public class SysUtils {
     public static final Charset UTF8 = Charset.forName("UTF-8");
 
+    private SysUtils() {/*not needed*/}
+
     public static File getAvdHomeDir() {
         String homeDir = System.getenv("HOME");
         return new File(homeDir, ".android/avd");

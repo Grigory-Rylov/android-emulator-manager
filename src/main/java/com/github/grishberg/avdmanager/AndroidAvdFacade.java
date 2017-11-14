@@ -1,12 +1,12 @@
 package com.github.grishberg.avdmanager;
 
 import com.android.ddmlib.IDevice;
-import com.github.grishberg.avdmanager.avdManager.AvdManagerException;
-import com.github.grishberg.avdmanager.avdManager.AvdManagerFabric;
-import com.github.grishberg.avdmanager.avdManager.AvdManagerWrapper;
-import com.github.grishberg.avdmanager.emulatorManager.EmulatorManagerException;
-import com.github.grishberg.avdmanager.emulatorManager.EmulatorManagerFabric;
-import com.github.grishberg.avdmanager.emulatorManager.EmulatorManagerWrapper;
+import com.github.grishberg.avdmanager.avdmanager.AvdManagerException;
+import com.github.grishberg.avdmanager.avdmanager.AvdManagerFabric;
+import com.github.grishberg.avdmanager.avdmanager.AvdManagerWrapper;
+import com.github.grishberg.avdmanager.emulatormanager.EmulatorManagerException;
+import com.github.grishberg.avdmanager.emulatormanager.EmulatorManagerFabric;
+import com.github.grishberg.avdmanager.emulatormanager.EmulatorManagerWrapper;
 import org.gradle.api.logging.Logger;
 
 import java.util.ArrayList;
@@ -56,10 +56,9 @@ public class AndroidAvdFacade {
      * Deletes emulators with name arg.getName()
      *
      * @param args array of parameters, contains AVD names.
-     * @throws InterruptedException
      * @throws AvdManagerException
      */
-    public void deleteEmulators(EmulatorConfig[] args) throws InterruptedException, AvdManagerException {
+    public void deleteEmulators(EmulatorConfig[] args) throws AvdManagerException {
         for (EmulatorConfig arg : args) {
             avdManager.deleteAvd(arg);
         }
@@ -104,7 +103,7 @@ public class AndroidAvdFacade {
         boolean allEmulatorsAreOnline = false;
 
         while (!allEmulatorsAreOnline && System.currentTimeMillis() < timeoutTime) {
-            Thread.sleep(1000 * TIMEOUT_FOR_CYCLE);
+            Thread.sleep(1000L * TIMEOUT_FOR_CYCLE);
             for (EmulatorConfig arg : args) {
                 if (isDeviceOnline(arg)) {
                     onlineDevices.add(arg.getName());

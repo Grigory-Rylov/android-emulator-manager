@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager.avdManager;
+package com.github.grishberg.avdmanager.avdmanager;
 
 import com.github.grishberg.avdmanager.BaseTestCaseWithLogger;
 import com.github.grishberg.avdmanager.DisplayMode;

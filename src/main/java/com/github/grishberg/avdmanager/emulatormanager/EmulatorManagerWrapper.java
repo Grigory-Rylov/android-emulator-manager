@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager.emulatorManager;
+package com.github.grishberg.avdmanager.emulatormanager;
 
 import com.github.grishberg.avdmanager.AndroidEmulator;
 import com.github.grishberg.avdmanager.EmulatorConfig;
@@ -46,19 +46,19 @@ public abstract class EmulatorManagerWrapper {
     }
 
     public String[] getAvdList() throws EmulatorManagerException {
-        ArrayList<String> result = new ArrayList<String>();
+        ArrayList<String> result = new ArrayList<>();
         Runtime rt = Runtime.getRuntime();
-        Process proc;
+        Process process;
         StringBuilder errorSb;
         BufferedReader stdInput = null;
         BufferedReader stdError = null;
         try {
-            proc = rt.exec(emulatorManagerPath + " -list-avds");
+            process = rt.exec(emulatorManagerPath + " -list-avds");
             stdInput = new BufferedReader(new
-                    InputStreamReader(proc.getInputStream(), UTF8));
+                    InputStreamReader(process.getInputStream(), UTF8));
 
             stdError = new BufferedReader(new
-                    InputStreamReader(proc.getErrorStream(), UTF8));
+                    InputStreamReader(process.getErrorStream(), UTF8));
 
             // read the output from the command
             String s;

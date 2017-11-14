@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager.avdManager;
+package com.github.grishberg.avdmanager.avdmanager;
 
 import com.github.grishberg.avdmanager.PreferenceContext;
 import org.gradle.api.logging.Logger;

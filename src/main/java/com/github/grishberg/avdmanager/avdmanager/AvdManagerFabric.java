@@ -1,22 +1,21 @@
-package com.github.grishberg.avdmanager.emulatorManager;
+package com.github.grishberg.avdmanager.avdmanager;
 
 import com.github.grishberg.avdmanager.PreferenceContext;
 import com.github.grishberg.avdmanager.utils.AbsProvider;
 import org.gradle.api.logging.Logger;
 
 /**
- * Creates EmulatorManagerWrapper for current os.
+ * Creates AvdManagerWrapper for current OS.
  */
-public class EmulatorManagerFabric extends AbsProvider {
-    public EmulatorManagerWrapper createEmulatorManagerForOs(PreferenceContext context,
-                                                             Logger logger) {
+public class AvdManagerFabric extends AbsProvider {
+    public AvdManagerWrapper createAvdManagerForOs(PreferenceContext context, Logger logger) {
 
         if (isWindows()) {
             throw new NoSuchMethodError();
         } else if (isMac()) {
-            return new UnixEmulatorManagerWrapper(context, logger);
+            return new UnixAvdManagerWrapper(context, logger);
         } else if (isUnix()) {
-            return new UnixEmulatorManagerWrapper(context, logger);
+            return new UnixAvdManagerWrapper(context, logger);
         } else if (isSolaris()) {
             throw new NoSuchMethodError();
         } else {

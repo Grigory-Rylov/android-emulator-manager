@@ -1,7 +1,7 @@
 package com.github.grishberg.avdmanager;
 
-import com.github.grishberg.avdmanager.avdManager.AvdManagerFabric;
-import com.github.grishberg.avdmanager.emulatorManager.EmulatorManagerFabric;
+import com.github.grishberg.avdmanager.avdmanager.AvdManagerFabric;
+import com.github.grishberg.avdmanager.emulatormanager.EmulatorManagerFabric;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

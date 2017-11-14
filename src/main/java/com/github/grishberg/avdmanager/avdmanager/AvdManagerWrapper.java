@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager.avdManager;
+package com.github.grishberg.avdmanager.avdmanager;
 
 import com.github.grishberg.avdmanager.EmulatorConfig;
 import com.github.grishberg.avdmanager.PreferenceContext;
@@ -64,8 +64,6 @@ public abstract class AvdManagerWrapper {
                 stream.close();
             }
 
-            //TODO: read in to stdout to debug.
-            SysUtils.copyStream(in, System.out);
             in.close();
 
             // Wait for happy ending
@@ -84,7 +82,7 @@ public abstract class AvdManagerWrapper {
         return isAvdCreated;
     }
 
-    public boolean deleteAvd(EmulatorConfig arg) throws InterruptedException, AvdManagerException {
+    public boolean deleteAvd(EmulatorConfig arg) throws AvdManagerException {
         Runtime rt = Runtime.getRuntime();
         Process proc;
         BufferedReader stdInput = null;
@@ -99,14 +97,14 @@ public abstract class AvdManagerWrapper {
                     InputStreamReader(proc.getErrorStream(), UTF8));
 
             // read the output from the command
-            String s;
-            while ((s = stdInput.readLine()) != null) {
-                System.out.println(s);
+            String line;
+            while ((line = stdInput.readLine()) != null) {
+                logger.info(line);
             }
 
             // read any errors from the attempted command
-            while ((s = stdError.readLine()) != null) {
-                logger.error(s);
+            while ((line = stdError.readLine()) != null) {
+                logger.error(line);
             }
         } catch (IOException e) {
             throw new AvdManagerException("exception while creating avd", e);

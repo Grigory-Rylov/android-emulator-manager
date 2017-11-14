@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager.avdManager;
+package com.github.grishberg.avdmanager.avdmanager;
 
 /**
  * Exceptions for AvdManager.
