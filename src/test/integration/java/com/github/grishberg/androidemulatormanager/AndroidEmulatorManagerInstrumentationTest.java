@@ -1,6 +1,5 @@
-package com.github.grishberg.avdmanager;
+package com.github.grishberg.androidemulatormanager;
 
-import com.github.grishberg.androidemulatormanager.*;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
 import org.junit.After;

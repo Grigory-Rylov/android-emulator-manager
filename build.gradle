@@ -31,5 +31,27 @@ dependencies {
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.2'
 }
 
+sourceSets {
+    test {
+        java.srcDir 'src/test/unit/java'
+    }
+    integration {
+        java.srcDir 'src/test/integration/java'
+        resources.srcDir 'src/test/resources'
+        compileClasspath += main.output + test.output
+        runtimeClasspath += main.output + test.output
+    }
+}
+
+configurations {
+    integrationCompile.extendsFrom testCompile
+    integrationRuntime.extendsFrom testRuntime
+}
+
+task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
+    testClassesDir = sourceSets.integration.output.classesDir
+    classpath = sourceSets.integration.runtimeClasspath
+}
+
 //need to call  ./gradlew clean build generateRelease
 apply from: 'publish.gradle'

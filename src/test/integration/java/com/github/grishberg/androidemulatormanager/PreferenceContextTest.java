@@ -1,6 +1,5 @@
-package com.github.grishberg.avdmanager;
+package com.github.grishberg.androidemulatormanager;
 
-import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import org.junit.Assert;
 import org.junit.Test;
 

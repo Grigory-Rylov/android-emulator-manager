@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager;
+package com.github.grishberg.androidemulatormanager;
 
 import org.gradle.api.Project;
 import org.gradle.api.logging.LogLevel;
