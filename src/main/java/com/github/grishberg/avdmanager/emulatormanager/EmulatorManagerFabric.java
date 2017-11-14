@@ -8,8 +8,13 @@ import org.gradle.api.logging.Logger;
  * Creates EmulatorManagerWrapper for current os.
  */
 public class EmulatorManagerFabric extends AbsProvider {
-    public EmulatorManagerWrapper createEmulatorManagerForOs(PreferenceContext context,
-                                                             Logger logger) {
+    private final Logger logger;
+
+    public EmulatorManagerFabric(Logger logger) {
+        this.logger = logger;
+    }
+
+    public EmulatorManagerWrapper createEmulatorManagerForOs(PreferenceContext context) {
 
         if (isWindows()) {
             throw new NoSuchMethodError();

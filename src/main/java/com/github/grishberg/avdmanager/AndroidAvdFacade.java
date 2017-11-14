@@ -33,8 +33,8 @@ public class AndroidAvdFacade {
                             AvdManagerFabric avdManagerFabric,
                             Logger logger) {
         this.logger = logger;
-        emulatorManager = emulatorManagerFabric.createEmulatorManagerForOs(context, logger);
-        avdManager = avdManagerFabric.createAvdManagerForOs(context, logger);
+        emulatorManager = emulatorManagerFabric.createEmulatorManagerForOs(context);
+        avdManager = avdManagerFabric.createAvdManagerForOs(context);
         this.adbFacade = adbFacade;
     }
 

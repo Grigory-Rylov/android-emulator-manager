@@ -20,10 +20,11 @@ public class AvdFacadeInstrumentationTest extends BaseTestCaseWithLogger {
     @Before
     public void setUp() throws Exception {
         PreferenceContext context = new PreferenceContext();
-        adbFacade = new AdbFacade();
-        adbFacade.init();
+        adbFacade = new AdbFacade(getLogger());
         avdFacade = new AndroidAvdFacade(context, adbFacade,
-                new EmulatorManagerFabric(), new AvdManagerFabric(), getLogger());
+                new EmulatorManagerFabric(getLogger()),
+                new AvdManagerFabric(getLogger()),
+                getLogger());
     }
 
     @After

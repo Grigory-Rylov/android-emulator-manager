@@ -8,7 +8,13 @@ import org.gradle.api.logging.Logger;
  * Creates AvdManagerWrapper for current OS.
  */
 public class AvdManagerFabric extends AbsProvider {
-    public AvdManagerWrapper createAvdManagerForOs(PreferenceContext context, Logger logger) {
+    private final Logger logger;
+
+    public AvdManagerFabric(Logger logger) {
+        this.logger = logger;
+    }
+
+    public AvdManagerWrapper createAvdManagerForOs(PreferenceContext context) {
 
         if (isWindows()) {
             throw new NoSuchMethodError();
