@@ -1,12 +1,12 @@
-package com.github.grishberg.avdmanager;
+package com.github.grishberg.androidemulatormanager;
 
 import com.android.ddmlib.IDevice;
-import com.github.grishberg.avdmanager.avdmanager.AvdManagerException;
-import com.github.grishberg.avdmanager.avdmanager.AvdManagerFabric;
-import com.github.grishberg.avdmanager.avdmanager.AvdManagerWrapper;
-import com.github.grishberg.avdmanager.emulatormanager.EmulatorManagerException;
-import com.github.grishberg.avdmanager.emulatormanager.EmulatorManagerFabric;
-import com.github.grishberg.avdmanager.emulatormanager.EmulatorManagerWrapper;
+import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerException;
+import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric;
+import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerWrapper;
+import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerException;
+import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
+import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerWrapper;
 import org.gradle.api.logging.Logger;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Facade for creating, deleting and starting emulators.
  */
-public class AndroidAvdFacade {
+public class AndroidEmulatorManager {
     private static final int TIMEOUT_FOR_CYCLE = 5;
     private static final String STOPPED = "stopped";
     private static final String PROPERTY_BOOTANIM = "init.svc.bootanim";
@@ -27,11 +27,11 @@ public class AndroidAvdFacade {
     private final ArrayList<AndroidEmulator> startedEmulators = new ArrayList<>();
     private final Logger logger;
 
-    public AndroidAvdFacade(PreferenceContext context,
-                            AdbFacade adbFacade,
-                            EmulatorManagerFabric emulatorManagerFabric,
-                            AvdManagerFabric avdManagerFabric,
-                            Logger logger) {
+    public AndroidEmulatorManager(PreferenceContext context,
+                                  AdbFacade adbFacade,
+                                  EmulatorManagerFabric emulatorManagerFabric,
+                                  AvdManagerFabric avdManagerFabric,
+                                  Logger logger) {
         this.logger = logger;
         emulatorManager = emulatorManagerFabric.createEmulatorManagerForOs(context);
         avdManager = avdManagerFabric.createAvdManagerForOs(context);

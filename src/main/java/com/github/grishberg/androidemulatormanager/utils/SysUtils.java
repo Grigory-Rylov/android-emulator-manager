@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager.utils;
+package com.github.grishberg.androidemulatormanager.utils;
 
 import java.io.*;
 import java.nio.charset.Charset;

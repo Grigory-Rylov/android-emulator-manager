@@ -1,9 +1,11 @@
 package com.github.grishberg.avdmanager.avdmanager;
 
+import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerWrapper;
+import com.github.grishberg.androidemulatormanager.avdmanager.UnixAvdManagerWrapper;
 import com.github.grishberg.avdmanager.BaseTestCaseWithLogger;
-import com.github.grishberg.avdmanager.DisplayMode;
-import com.github.grishberg.avdmanager.EmulatorConfig;
-import com.github.grishberg.avdmanager.PreferenceContext;
+import com.github.grishberg.androidemulatormanager.DisplayMode;
+import com.github.grishberg.androidemulatormanager.EmulatorConfig;
+import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

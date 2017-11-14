@@ -1,7 +1,8 @@
 package com.github.grishberg.avdmanager;
 
-import com.github.grishberg.avdmanager.emulatormanager.EmulatorManagerWrapper;
-import com.github.grishberg.avdmanager.emulatormanager.UnixEmulatorManagerWrapper;
+import com.github.grishberg.androidemulatormanager.PreferenceContext;
+import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerWrapper;
+import com.github.grishberg.androidemulatormanager.emulatormanager.UnixEmulatorManagerWrapper;
 import org.junit.Assert;
 import org.junit.Test;
 

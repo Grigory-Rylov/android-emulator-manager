@@ -1,7 +1,7 @@
-package com.github.grishberg.avdmanager.avdmanager;
+package com.github.grishberg.androidemulatormanager.avdmanager;
 
-import com.github.grishberg.avdmanager.PreferenceContext;
-import com.github.grishberg.avdmanager.utils.AbsProvider;
+import com.github.grishberg.androidemulatormanager.PreferenceContext;
+import com.github.grishberg.androidemulatormanager.utils.AbsProvider;
 import org.gradle.api.logging.Logger;
 
 /**

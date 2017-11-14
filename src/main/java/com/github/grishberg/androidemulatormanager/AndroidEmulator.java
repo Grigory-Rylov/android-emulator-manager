@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager;
+package com.github.grishberg.androidemulatormanager;
 
 /**
  * Contains info about started emulator.

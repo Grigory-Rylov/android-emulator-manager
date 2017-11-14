@@ -5,7 +5,7 @@ plugins {
 
 ext {
     PUBLISH_GROUP_ID = 'com.github.grishberg'
-    PUBLISH_ARTIFACT_ID = 'AvdManager'
+    PUBLISH_ARTIFACT_ID = 'AndroidEmulatorManager'
     PUBLISH_VERSION = '0.1.0'
 }
 

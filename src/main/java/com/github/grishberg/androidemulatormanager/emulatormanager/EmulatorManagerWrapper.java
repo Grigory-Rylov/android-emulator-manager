@@ -1,7 +1,8 @@
-package com.github.grishberg.avdmanager.emulatormanager;
+package com.github.grishberg.androidemulatormanager.emulatormanager;
 
-import com.github.grishberg.avdmanager.AndroidEmulator;
-import com.github.grishberg.avdmanager.EmulatorConfig;
+import com.github.grishberg.androidemulatormanager.EmulatorConfig;
+import com.github.grishberg.androidemulatormanager.utils.SysUtils;
+import com.github.grishberg.androidemulatormanager.AndroidEmulator;
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.logging.Logger;
 
@@ -9,8 +10,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
-import static com.github.grishberg.avdmanager.utils.SysUtils.UTF8;
 
 /**
  * Wrapper for emulatormanager..
@@ -55,10 +54,10 @@ public abstract class EmulatorManagerWrapper {
         try {
             process = rt.exec(emulatorManagerPath + " -list-avds");
             stdInput = new BufferedReader(new
-                    InputStreamReader(process.getInputStream(), UTF8));
+                    InputStreamReader(process.getInputStream(), SysUtils.UTF8));
 
             stdError = new BufferedReader(new
-                    InputStreamReader(process.getErrorStream(), UTF8));
+                    InputStreamReader(process.getErrorStream(), SysUtils.UTF8));
 
             // read the output from the command
             String s;

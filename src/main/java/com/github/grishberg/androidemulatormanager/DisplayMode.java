@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager;
+package com.github.grishberg.androidemulatormanager;
 
 /**
  * Created by grishberg on 12.11.17.

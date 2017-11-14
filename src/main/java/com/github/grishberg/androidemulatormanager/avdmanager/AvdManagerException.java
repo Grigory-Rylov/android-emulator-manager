@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager.avdmanager;
+package com.github.grishberg.androidemulatormanager.avdmanager;
 
 /**
  * Exceptions for AvdManager.

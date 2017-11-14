@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager;
+package com.github.grishberg.androidemulatormanager;
 
 import java.util.Map;
 

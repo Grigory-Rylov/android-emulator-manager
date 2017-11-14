@@ -1,6 +1,6 @@
-package com.github.grishberg.avdmanager.emulatormanager;
+package com.github.grishberg.androidemulatormanager.emulatormanager;
 
-import com.github.grishberg.avdmanager.PreferenceContext;
+import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import org.gradle.api.logging.Logger;
 
 /**

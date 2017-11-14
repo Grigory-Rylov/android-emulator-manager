@@ -1,4 +1,4 @@
-package com.github.grishberg.avdmanager.emulatormanager;
+package com.github.grishberg.androidemulatormanager.emulatormanager;
 
 /**
  * Exception for EmulatorManager.

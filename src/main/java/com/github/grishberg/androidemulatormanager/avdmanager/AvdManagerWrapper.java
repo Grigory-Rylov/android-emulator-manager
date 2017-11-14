@@ -1,16 +1,14 @@
-package com.github.grishberg.avdmanager.avdmanager;
+package com.github.grishberg.androidemulatormanager.avdmanager;
 
-import com.github.grishberg.avdmanager.EmulatorConfig;
-import com.github.grishberg.avdmanager.PreferenceContext;
-import com.github.grishberg.avdmanager.utils.SysUtils;
+import com.github.grishberg.androidemulatormanager.EmulatorConfig;
+import com.github.grishberg.androidemulatormanager.utils.SysUtils;
+import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.logging.Logger;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.github.grishberg.avdmanager.utils.SysUtils.UTF8;
 
 /**
  * Wrapper for avdmanager.
@@ -91,10 +89,10 @@ public abstract class AvdManagerWrapper {
         try {
             proc = rt.exec(buildDeleteAvdCommand(arg));
             stdInput = new BufferedReader(new
-                    InputStreamReader(proc.getInputStream(), UTF8));
+                    InputStreamReader(proc.getInputStream(), SysUtils.UTF8));
 
             stdError = new BufferedReader(new
-                    InputStreamReader(proc.getErrorStream(), UTF8));
+                    InputStreamReader(proc.getErrorStream(), SysUtils.UTF8));
 
             // read the output from the command
             String line;
