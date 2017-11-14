@@ -3,8 +3,14 @@ plugins {
     id 'java'
 }
 
-group 'com.grishberg'
-version '1.0-SNAPSHOT'
+ext {
+    PUBLISH_GROUP_ID = 'com.github.grishberg'
+    PUBLISH_ARTIFACT_ID = 'AvdManager'
+    PUBLISH_VERSION = '0.1.0'
+}
+
+group 'com.github.grishberg'
+version '0.1.0'
 
 sourceCompatibility = 1.8
 
@@ -24,3 +30,6 @@ dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.2'
 }
+
+//need to call  ./gradlew clean build generateRelease
+apply from: 'publish.gradle'
