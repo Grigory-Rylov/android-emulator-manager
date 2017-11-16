@@ -1,0 +1,195 @@
+
+PlayStore: Does the device supports Google Play?
+PlayStore.enabled [no]:no
+
+Name of the AVD being run:
+avd.name [<build>]:
+
+Cache partition support: Whether we use a /cache partition on the device.
+disk.cachePartition [yes]:
+
+Cache partition: Cache partition to use on the device. Ignored if disk.cachePartition is not 'yes'.
+disk.cachePartition.path []:
+
+Cache partition size:
+disk.cachePartition.size [66MB]:
+
+Initial data partition: If not empty, its content will be copied to the disk.dataPartition.path file at boot-time.
+disk.dataPartition.initPath []:
+
+Path to data partition file: Path to data partition file. Cannot be empty. Special value <temp> means using a temporary file. If disk.dataPartition.initPath is not empty, its content will be copied to the disk.dataPartition.path file at boot-time.
+disk.dataPartition.path [<temp>]:
+
+Ideal size of data partition:
+disk.dataPartition.size [0]:
+
+Path to encryption key partition file: Path to encryption key partition file. Should be at least 16K bytes empty disk without any filesystem on it.
+disk.encryptionKeyPartition.path []:
+
+Path to the ramdisk image: Path to the ramdisk image.
+disk.ramdisk.path []:
+
+Path to snapshot storage: Path to a 'snapshot storage' file, where all snapshots are stored.
+disk.snapStorage.path []:
+
+Initial system partition image:
+disk.systemPartition.initPath []:
+
+Path to runtime system partition image:
+disk.systemPartition.path []:
+
+Ideal size of system partition:
+disk.systemPartition.size [0]:
+
+Initial vendor partition image:
+disk.vendorPartition.initPath []:
+
+Path to runtime vendor partition image:
+disk.vendorPartition.path []:
+
+Ideal size of vendor partition:
+disk.vendorPartition.size [0]:
+
+Accelerometer: Whether there is an accelerometer in the device.
+hw.accelerometer [yes]:
+
+Audio recording support: Whether the device can record audio
+hw.audioInput [yes]:
+
+Audio playback support: Whether the device can play audio
+hw.audioOutput [yes]:
+
+Battery support: Whether the device can run on a battery.
+hw.battery [yes]:
+
+Configures camera facing back: Must be 'emulated' for a fake camera, 'webcam<N>' for a web camera, or 'none' if back camera is disabled.
+hw.camera.back [emulated]:
+
+Configures camera facing front: Must be 'emulated' for a fake camera, 'webcam<N>' for a web camera, or 'none' if front camera is disabled.
+hw.camera.front [none]:
+
+CPU Architecture: The CPU Architecture to emulator
+hw.cpu.arch [arm]:
+
+CPU model: The CPU model (QEMU-specific string)
+hw.cpu.model []:
+
+SMP CPU core count: Number of cores in a simulated SMP CPU.
+hw.cpu.ncore [2]:
+
+DPad support: Whether the device has DPad keys
+hw.dPad [yes]:
+
+GPS support: Whether there is a GPS in the device.
+hw.gps [yes]:
+
+GPU on-blacklist mode: This value determines if the GPU is considered blacklisted. Testing purposes only.
+hw.gpu.blacklisted [no]:
+
+GPU emulation: Enable/Disable emulated OpenGLES GPU
+hw.gpu.enabled [no]:
+
+GPU emulation mode: This value determines how GPU emulation is implemented.
+hw.gpu.mode [auto]:
+
+GSM modem support: Whether there is a GSM modem in the device.
+hw.gsmModem [yes]:
+
+Gyroscope: Whether there is a gyroscope in the device.
+hw.gyroscope [yes]:
+
+Initial screen orientation: Setup initial screen orientation, can be rotated later on.
+hw.initialOrientation [portrait]:
+
+Keyboard support: Whether the device has a QWERTY keyboard.
+hw.keyboard [no]:
+
+Keyboard charmap name: Name of the system keyboard charmap file.
+hw.keyboard.charmap [qwerty2]:
+
+Keyboard lid support: Whether the QWERTY keyboard can be opened/closed.
+hw.keyboard.lid [yes]:
+
+LCD backlight: Enable/Disable LCD backlight simulation,yes-enabled,no-disabled.
+hw.lcd.backlight [yes]:
+
+Abstracted LCD density: A value used to roughly describe the density of the LCD screen for automatic resource/asset selection.
+hw.lcd.density [160]:
+
+LCD color depth: Color bit depth of emulated framebuffer.
+hw.lcd.depth [16]:
+
+LCD pixel height:
+hw.lcd.height [640]:
+
+LCD pixel width:
+hw.lcd.width [320]:
+
+Logcat Output File Path:
+hw.logcatOutput.path []:
+
+Hardware Back/Home keys: Whether there are hardware back/home keys on the device.
+hw.mainKeys [yes]:
+
+Device ram size: The amount of physical RAM on the device, in megabytes.
+hw.ramSize [0]:
+
+Rotary input support: Whether the device has rotary input
+hw.rotaryInput [no]:
+
+Touch screen type: Defines type of the screen.
+hw.screen [multi-touch]:
+
+SD Card support: Whether the device supports insertion/removal of virtual SD Cards.
+hw.sdCard [yes]:
+
+SD Card image path:
+hw.sdCard.path []:
+
+Uncalibrated gyroscope support: Provides uncalibrated gyroscope sensor values.
+hw.sensors.gyroscope_uncalibrated [yes]:
+
+Humidity support: Whether there is a relative humidity sensor in the device
+hw.sensors.humidity [yes]:
+
+Light support: Whether there is a light sensor in the device
+hw.sensors.light [yes]:
+
+Magnetic field support: Provides magnetic field sensor values.
+hw.sensors.magnetic_field [yes]:
+
+Uncalibrated magnetic field suport: Provides uncalibrated magnetic field sensor values.
+hw.sensors.magnetic_field_uncalibrated [yes]:
+
+Orientation support: Provides orientation sensor values.
+hw.sensors.orientation [yes]:
+
+Pressure support: Whether there is a pressure sensor in the device
+hw.sensors.pressure [yes]:
+
+Proximity support: Whether there is an proximity in the device.
+hw.sensors.proximity [yes]:
+
+Temperature support: Provides temperature sensor values.
+hw.sensors.temperature [yes]:
+
+Track-ball support: Whether there is a trackball on the device.
+hw.trackBall [yes]:
+
+Deprecated option. Ignored.: Used to specify the Ext4 partition image type. This is now autodetected.
+hw.useext4 [yes]:
+
+Does the kernel require a new device naming scheme?: Used to specify whether the kernel requires a new device naming scheme. Typically for Linux 3.10 and above.
+kernel.newDeviceNaming [autodetect]:
+
+kernel boot parameters string.:
+kernel.parameters []:
+
+Path to the kernel image: Path to the kernel image.
+kernel.path []:
+
+Does the kernel supports YAFFS2 partitions?: Used to specify whether the kernel supports YAFFS2 partition images. Typically before 3.10 only.
+kernel.supportsYaffs2 [autodetect]:
+
+Max VM application heap size: The maximum heap size a Dalvik application might allocate before being killed by the system. Value is in megabytes.
+vm.heapSize [0]:

@@ -1,8 +1,8 @@
 package com.github.grishberg.androidemulatormanager.avdmanager;
 
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
-import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
+import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.apache.commons.io.IOUtils;
 import org.gradle.api.logging.Logger;
 
@@ -123,6 +123,10 @@ public abstract class AvdManagerWrapper {
         params.add(arg.getName());
         params.add("-k");
         params.add(buildSdkId(arg));
+
+        params.add("-dpi-device");
+        params.add(String.valueOf(arg.getDisplayMode().getDensity()));
+
         return params;
     }
 

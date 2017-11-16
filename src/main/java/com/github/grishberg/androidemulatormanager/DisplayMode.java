@@ -14,4 +14,16 @@ public enum DisplayMode {
         this.height = height;
         this.density = density;
     }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getDensity() {
+        return density;
+    }
 }
