@@ -13,10 +13,9 @@ public class AdbFacade {
 
     public AdbFacade(Logger logger) {
         this.logger = logger;
-        init();
     }
 
-    private void init() {
+    public void init() throws InterruptedException {
         AndroidDebugBridge.initIfNeeded(false);
         adb = AndroidDebugBridge.createBridge();
         waitForAdb();
@@ -30,11 +29,7 @@ public class AdbFacade {
         // at the moment not needed
     }
 
-    private void waitForAdb() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            logger.error("Error while wailing", e);
-        }
+    private void waitForAdb() throws InterruptedException {
+        Thread.sleep(1000);
     }
 }
