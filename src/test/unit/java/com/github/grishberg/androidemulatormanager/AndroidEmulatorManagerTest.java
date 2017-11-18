@@ -33,7 +33,7 @@ public class AndroidEmulatorManagerTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        when(avdManagerFabric.createAvdManagerForOs(preferenceContext)).thenReturn(avdManager);
+        when(avdManagerFabric.createAvdManagerForOs()).thenReturn(avdManager);
 
         emulatorManager = new AndroidEmulatorManager(preferenceContext,
                 adbFacade,

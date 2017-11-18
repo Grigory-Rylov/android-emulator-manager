@@ -1,37 +1,45 @@
 package com.github.grishberg.androidemulatormanager.avdmanager;
 
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
+import org.apache.commons.io.IOUtils;
 import org.gradle.api.logging.Logger;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Properties;
+import java.util.*;
 
 /**
- * Created by grishberg on 15.11.17.
+ * Creates config init.
  */
 public class HardwareManager {
-    private static final String HARDWARE_FILE_NAME = "hardware-qemu.ini";
+    private static final String CONFIG_FILE_NAME = "config.ini";
     private final Logger logger;
-    private final String avdHomeDir;
+    private final File avdHomeDir;
 
-    public HardwareManager(String avdHomeDir, Logger logger) {
+    public HardwareManager(File avdHomeDir, Logger logger) {
         this.logger = logger;
         this.avdHomeDir = avdHomeDir;
     }
 
     public void writeHardwareFile(EmulatorConfig config) {
+        String configName = new File(avdHomeDir,
+                String.format(Locale.US, "%s.avd/config.ini", config.getName()))
+                .getAbsolutePath();
+        HashMap<String, String> defaultParams = readDefaultConfig(configName);
+
         Properties prop = new Properties();
         OutputStream output = null;
 
         try {
 
-            output = new FileOutputStream(avdHomeDir + "/" + config.getName() + "/config.ini");
+            output = new FileOutputStream(configName);
 
+            for (Map.Entry<String, String> entry : defaultParams.entrySet()) {
+                prop.setProperty(entry.getKey(), entry.getValue());
+            }
             // set the properties value
             prop.setProperty("hw.lcd.density", String.valueOf(config.getDisplayMode().getDensity()));
             prop.setProperty("hw.lcd.height", String.valueOf(config.getDisplayMode().getHeight()));
-            prop.setProperty("hw.lcd.widt", String.valueOf(config.getDisplayMode().getWidth()));
+            prop.setProperty("hw.lcd.width", String.valueOf(config.getDisplayMode().getWidth()));
             prop.setProperty("skin.name", String.format("%dx%d",
                     config.getDisplayMode().getWidth(),
                     config.getDisplayMode().getHeight()));
@@ -41,38 +49,42 @@ public class HardwareManager {
         } catch (IOException io) {
             io.printStackTrace();
         } finally {
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            IOUtils.closeQuietly(output);
         }
     }
 
-    private HashMap<String, String> readConfigFile() {
+    private HashMap<String, String> readDefaultConfig(String fileName) {
+
         HashMap<String, String> params = new HashMap<>();
-        try (InputStream inputStream = ){
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(fileName);
             Properties prop = new Properties();
             String propFileName = "config.ini";
-
-            inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 
             if (inputStream != null) {
                 prop.load(inputStream);
             } else {
                 throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
             }
+            HashSet<String> argNames = new HashSet<>();
+            argNames.add("PlayStore.enabled");
+            argNames.add("abi.type");
+            argNames.add("avd.ini.encoding");
+            argNames.add("hw.cpu.arch");
+            argNames.add("image.sysdir.1");
+            argNames.add("tag.display");
+            argNames.add("tag.id");
 
             // get the property value and print it out
-            String user = prop.getProperty("user");
-
-
+            for (String key : argNames) {
+                params.put(key, prop.getProperty(key));
+            }
         } catch (Exception e) {
-            System.out.println("Exception: " + e);
+            logger.error("Exception:", e);
         } finally {
-            inputStream.close();
+            IOUtils.closeQuietly(inputStream);
         }
+        return params;
     }
 }

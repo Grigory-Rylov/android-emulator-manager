@@ -14,10 +14,15 @@ import java.util.List;
  * Wrapper for avdmanager.
  */
 public abstract class AvdManagerWrapper {
-    private final Logger logger;
     private final String pathToAvdManager;
+    private final HardwareManager hardwareManager;
+    private final Logger logger;
 
-    public AvdManagerWrapper(PreferenceContext context, String pathToAvdManager, Logger logger) {
+    public AvdManagerWrapper(PreferenceContext context,
+                             String pathToAvdManager,
+                             HardwareManager hardwareManager,
+                             Logger logger) {
+        this.hardwareManager = hardwareManager;
         this.logger = logger;
         this.pathToAvdManager = context.getAndroidSdkPath() + pathToAvdManager;
     }
@@ -71,11 +76,15 @@ public abstract class AvdManagerWrapper {
             }
         } catch (IOException e) {
             // read any errors from the attempted command
-            logger.error(SysUtils.readStringFromInputString(process.getErrorStream()));
-            throw new AvdManagerException("Exception while creating avd", e);
+            String errorString = SysUtils.readStringFromInputString(process.getErrorStream());
+            logger.error(errorString);
+            throw new AvdManagerException("Exception while creating avd:" + errorString, e);
         } finally {
             IOUtils.closeQuietly(stderr);
             process.destroy();
+        }
+        if (isAvdCreated) {
+            hardwareManager.writeHardwareFile(arg);
         }
         return isAvdCreated;
     }
@@ -123,10 +132,6 @@ public abstract class AvdManagerWrapper {
         params.add(arg.getName());
         params.add("-k");
         params.add(buildSdkId(arg));
-
-        params.add("-dpi-device");
-        params.add(String.valueOf(arg.getDisplayMode().getDensity()));
-
         return params;
     }
 
