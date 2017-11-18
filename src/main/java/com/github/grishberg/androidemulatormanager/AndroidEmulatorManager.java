@@ -34,7 +34,7 @@ public class AndroidEmulatorManager {
                                   Logger logger) {
         this.logger = logger;
         emulatorManager = emulatorManagerFabric.createEmulatorManagerForOs(context);
-        avdManager = avdManagerFabric.createAvdManagerForOs(context);
+        avdManager = avdManagerFabric.createAvdManagerForOs();
         this.adbFacade = adbFacade;
     }
 

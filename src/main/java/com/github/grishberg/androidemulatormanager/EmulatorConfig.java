@@ -11,7 +11,7 @@ public class EmulatorConfig {
 
     public static EmulatorConfig argsFromJson(String argsAsJson) {
         //TODO: extract parameters from json
-        EmulatorConfig args = new EmulatorConfig("phone", DisplayMode.HDPI, 26);
+        EmulatorConfig args = new EmulatorConfig("phone", DisplayMode.PHONE_HDPI, 26);
         return args;
     }
 

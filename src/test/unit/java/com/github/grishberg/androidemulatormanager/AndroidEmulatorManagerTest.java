@@ -33,7 +33,7 @@ public class AndroidEmulatorManagerTest {
     @Before
     public void setUp() throws Exception {
         initMocks(this);
-        when(avdManagerFabric.createAvdManagerForOs(preferenceContext)).thenReturn(avdManager);
+        when(avdManagerFabric.createAvdManagerForOs()).thenReturn(avdManager);
 
         emulatorManager = new AndroidEmulatorManager(preferenceContext,
                 adbFacade,
@@ -45,7 +45,7 @@ public class AndroidEmulatorManagerTest {
     @Test
     public void testCreateEmulators() throws Exception {
         EmulatorConfig emulatorConfig = new EmulatorConfig("test",
-                DisplayMode.HDPI, 26);
+                DisplayMode.PHONE_HDPI, 26);
         emulatorManager.createEmulators(new EmulatorConfig[]{emulatorConfig});
 
         verify(avdManager).createAvd(emulatorConfig);
