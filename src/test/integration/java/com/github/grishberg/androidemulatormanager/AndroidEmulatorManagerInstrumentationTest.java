@@ -26,6 +26,7 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
     public void setUp() throws Exception {
         PreferenceContext context = new PreferenceContext();
         adbFacade = new AdbFacade(getLogger());
+        adbFacade.init();
         HardwareManager hardwareManager = new HardwareManager(SysUtils.getAvdHomeDir(), getLogger());
         emulatorManager = new AndroidEmulatorManager(context, adbFacade,
                 new EmulatorManagerFabric(getLogger()),
