@@ -14,7 +14,10 @@ import org.junit.Test;
 public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithLogger {
     private AndroidEmulatorManager emulatorManager;
     private AdbFacade adbFacade;
-    private EmulatorConfig arg = new EmulatorConfig("test", DisplayMode.HDPI, 26);
+    private EmulatorConfig arg_phone = new EmulatorConfig("test_phone",
+            DisplayMode.PHONE_HDPI, 26);
+    private EmulatorConfig arg_tablet = new EmulatorConfig("test_tablet",
+            DisplayMode.TABLET_XHDPI, 26);
 
     public AndroidEmulatorManagerInstrumentationTest() {
     }
@@ -37,10 +40,10 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
 
     @Test
     public void runEmulator() throws Exception {
-        EmulatorConfig[] args = {arg};
+        EmulatorConfig[] args = {arg_phone, arg_tablet};
         emulatorManager.createEmulators(args);
         emulatorManager.startEmulators(args);
-        emulatorManager.waitForEmulatorStarts(args, 30 * 1000);
+        emulatorManager.waitForEmulatorStarts(args, 60 * 1000);
         emulatorManager.stopRunningEmulators();
         emulatorManager.deleteEmulators(args);
     }

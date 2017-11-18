@@ -45,7 +45,7 @@ public class AndroidEmulatorManagerTest {
     @Test
     public void testCreateEmulators() throws Exception {
         EmulatorConfig emulatorConfig = new EmulatorConfig("test",
-                DisplayMode.HDPI, 26);
+                DisplayMode.PHONE_HDPI, 26);
         emulatorManager.createEmulators(new EmulatorConfig[]{emulatorConfig});
 
         verify(avdManager).createAvd(emulatorConfig);

@@ -31,7 +31,7 @@ public class HardwareManagerTest extends BaseTestCaseWithLogger {
 
     @Test
     public void testWriteConfig() {
-        EmulatorConfig config = new EmulatorConfig("test", DisplayMode.HDPI, 26);
+        EmulatorConfig config = new EmulatorConfig("test", DisplayMode.PHONE_HDPI, 26);
         manager.writeHardwareFile(config);
         assertTrue(new File(CONFIG_FILE_PATH).exists());
     }
