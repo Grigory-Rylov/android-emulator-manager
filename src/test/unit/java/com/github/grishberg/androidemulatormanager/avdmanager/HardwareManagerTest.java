@@ -37,6 +37,7 @@ public class HardwareManagerTest extends BaseTestCaseWithLogger {
     }
 
     private void createIniFile() throws Exception {
+        new File("for_test/test.avd").mkdirs();
         StringBuilder sb = new StringBuilder();
         sb.append("PlayStore.enabled=false\n");
         sb.append("abi.type=x86\n");
