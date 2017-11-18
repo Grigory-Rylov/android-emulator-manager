@@ -6,8 +6,6 @@ package com.github.grishberg.androidemulatormanager.utils;
 public abstract class AbsProvider {
     private static final String OS = System.getProperty("os.name").toLowerCase();
 
-    public AbsProvider() {/*not needed*/}
-
     protected static boolean isWindows() {
 
         return (OS.contains("win"));
