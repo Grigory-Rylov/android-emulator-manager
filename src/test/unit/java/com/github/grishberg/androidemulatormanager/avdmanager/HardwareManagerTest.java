@@ -9,6 +9,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.assertTrue;
 
@@ -28,8 +30,8 @@ public class HardwareManagerTest {
     }
 
     @After
-    public void tearDown() {
-        assertTrue(new File(CONFIG_FILE_PATH).delete());
+    public void tearDown() throws IOException {
+        Files.delete(Paths.get(CONFIG_FILE_PATH));
     }
 
     @Test
