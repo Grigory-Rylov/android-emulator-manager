@@ -1,7 +1,7 @@
 Gradle plugin for creating, deleting, starting and waiting Android emulators (AVD)
 
 
-compile 'com.github.grishberg:AndroidEmulatorManager:0.1.0'
+compile 'com.github.grishberg:AndroidEmulatorManager:0.1.1'
 
 
 Copyright 2017 Grigory Rylov
