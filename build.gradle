@@ -61,5 +61,7 @@ jacocoTestReport {
     }
 }
 
+check.dependsOn jacocoTestReport
+
 //need to call  ./gradlew clean build generateRelease
 apply from: 'publish.gradle'
