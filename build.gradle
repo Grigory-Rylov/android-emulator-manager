@@ -54,9 +54,5 @@ task integration(type: Test, description: 'Runs the integration tests.', group: 
     classpath = sourceSets.integration.runtimeClasspath
 }
 
-jacoco {
-    toolVersion = "0.7.9"
-}
-
 //need to call  ./gradlew clean build generateRelease
 apply from: 'publish.gradle'
