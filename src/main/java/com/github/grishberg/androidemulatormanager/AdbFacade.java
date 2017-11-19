@@ -19,6 +19,7 @@ public class AdbFacade {
         AndroidDebugBridge.initIfNeeded(false);
         adb = AndroidDebugBridge.createBridge();
         waitForAdb();
+        logger.info("adb initiated");
     }
 
     public IDevice[] getDevices() {
@@ -27,6 +28,7 @@ public class AdbFacade {
 
     public void terminate() {
         // at the moment not needed
+        logger.info("terminating");
     }
 
     private void waitForAdb() throws InterruptedException {

@@ -1,5 +1,6 @@
 package com.github.grishberg.androidemulatormanager;
 
+import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerException;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerWrapper;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
@@ -31,7 +32,7 @@ public class AndroidEmulatorManagerTest {
     Logger logger;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         initMocks(this);
         when(avdManagerFabric.createAvdManagerForOs()).thenReturn(avdManager);
 
@@ -43,7 +44,7 @@ public class AndroidEmulatorManagerTest {
     }
 
     @Test
-    public void testCreateEmulators() throws Exception {
+    public void testCreateEmulators() throws AvdManagerException, InterruptedException {
         EmulatorConfig emulatorConfig = new EmulatorConfig("test",
                 DisplayMode.PHONE_HDPI, 26);
         emulatorManager.createEmulators(new EmulatorConfig[]{emulatorConfig});
