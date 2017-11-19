@@ -1,7 +1,11 @@
 package com.github.grishberg.androidemulatormanager.utils;
 
+import org.gradle.api.logging.Logger;
+
 import java.io.*;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Helpers methods.
@@ -34,5 +38,42 @@ public class SysUtils {
 
     public static File getAvdConfig(String name) {
         return new File(getAvdHomeDir(), name + ".ini");
+    }
+
+    public static List<String> executeWithArgsAndReturnOutput(Logger logger, String... cmd)
+            throws IOException {
+        ArrayList<String> result = new ArrayList<>();
+        Runtime rt = Runtime.getRuntime();
+        Process process;
+        StringBuilder errorSb;
+
+        process = rt.exec(cmd);
+
+        try (BufferedReader stdInput = new BufferedReader(new
+                InputStreamReader(process.getInputStream(), SysUtils.UTF8));
+
+             BufferedReader stdError = new BufferedReader(new
+                     InputStreamReader(process.getErrorStream(), SysUtils.UTF8))) {
+
+            // read the output from the command
+            String line;
+            while ((line = stdInput.readLine()) != null) {
+                result.add(line);
+                logger.info(line);
+            }
+
+            // read any errors from the attempted command
+            errorSb = new StringBuilder();
+            while ((line = stdError.readLine()) != null) {
+                errorSb.append(line);
+                logger.error(line);
+            }
+
+            String errorString = errorSb.toString();
+            if (errorString.length() != 0) {
+                throw new IOException(errorString);
+            }
+        }
+        return result;
     }
 }

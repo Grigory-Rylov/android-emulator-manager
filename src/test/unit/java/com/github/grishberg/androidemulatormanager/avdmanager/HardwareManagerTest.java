@@ -22,13 +22,13 @@ public class HardwareManagerTest {
     private HardwareManager manager;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() throws IOException {
         createIniFile();
         manager = new HardwareManager(new File("for_test"), logger);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         assertTrue(new File(CONFIG_FILE_PATH).delete());
     }
 
