@@ -1,7 +1,7 @@
 package com.github.grishberg.androidemulatormanager.emulatormanager;
 
-import com.github.grishberg.androidemulatormanager.utils.AbsProvider;
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
+import com.github.grishberg.androidemulatormanager.utils.AbsProvider;
 import org.gradle.api.logging.Logger;
 
 /**
