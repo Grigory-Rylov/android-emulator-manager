@@ -53,13 +53,11 @@ task integration(type: Test, description: 'Runs the integration tests.', group: 
     testClassesDir = sourceSets.integration.output.classesDir
     classpath = sourceSets.integration.runtimeClasspath
 }
-
 jacocoTestReport {
     reports {
         xml.enabled = true
         html.enabled = true
         html.destination "${buildDir}/reports/coverage"
-        destPath = file("$buildDir/jacoco/jacocoTest.exec")
     }
 }
 
