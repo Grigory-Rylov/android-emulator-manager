@@ -29,4 +29,8 @@ public class BaseTestCaseWithLogger {
     protected Logger getLogger() {
         return project.getLogger();
     }
+
+    protected Project getProject() {
+        return project;
+    }
 }
