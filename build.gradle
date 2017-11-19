@@ -56,7 +56,6 @@ task integration(type: Test, description: 'Runs the integration tests.', group: 
 
 jacoco {
     toolVersion = "0.7.9"
-    reportsDir = file("$buildDir/customJacocoReportDir")
 }
 
 //need to call  ./gradlew clean build generateRelease
