@@ -65,7 +65,13 @@ jacocoTestReport {
         html.enabled = true
     }
 }
-
+/*
+sonarqube {
+    properties {
+        sonar.jacoco.reportPaths
+    }
+}
+*/
 check.dependsOn jacocoTestReport
 
 //need to call  ./gradlew clean build generateRelease
