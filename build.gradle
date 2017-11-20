@@ -60,8 +60,17 @@ jacocoTestReport {
         html.enabled = true
     }
 }
-println "------------------------jacoco reportsDir:"
-println "${jacoco.reportsDir}"
+sonarqube {
+    properties {
+        property "sonar.projectKey", "com.github.grishberg:androidemulatormanager"
+        property "sonar.projectName", "androidemulatormanager"
+        property "sonar.projectVersion", "${project.version}"
+//        property "sonar.sources", "."
+//        property "sonar.java.binaries", "."
+        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+    }
+}
+
 check.dependsOn jacocoTestReport
 
 //need to call  ./gradlew clean build generateRelease
