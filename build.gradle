@@ -63,7 +63,7 @@ jacocoTestReport {
 
 sonarqube {
     properties {
-        property "sonar.jacoco.reportPaths", "$buildDir/jacoco/jacoco.exec"
+        property "sonar.jacoco.reportPaths", "$buildDir/jacoco/jacoco1.exec"
     }
 }
 
