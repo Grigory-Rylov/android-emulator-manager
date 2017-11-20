@@ -13,3 +13,6 @@ addons:
 script:
   # other script steps might be done before running the actual analysis
   - sonar-scanner
+
+after_success:
+  - mvn clean test jacoco:report coveralls:jacoco
