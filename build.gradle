@@ -60,13 +60,13 @@ jacocoTestReport {
         html.enabled = true
     }
 }
-/*
+
 sonarqube {
     properties {
         property "sonar.jacoco.reportPaths", "$buildDir/jacoco/jacoco.exec"
     }
 }
-*/
+
 check.dependsOn jacocoTestReport
 
 //need to call  ./gradlew clean build generateRelease
