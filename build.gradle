@@ -54,12 +54,6 @@ task integration(type: Test, description: 'Runs the integration tests.', group: 
     classpath = sourceSets.integration.runtimeClasspath
 }
 
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
 sonarqube {
     properties {
         property "sonar.projectKey", "com.github.grishberg:androidemulatormanager"
@@ -71,7 +65,6 @@ sonarqube {
     }
 }
 
-check.dependsOn jacocoTestReport
 
 //need to call  ./gradlew clean build generateRelease
 apply from: 'publish.gradle'
