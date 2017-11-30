@@ -54,18 +54,6 @@ task integration(type: Test, description: 'Runs the integration tests.', group: 
     classpath = sourceSets.integration.runtimeClasspath
 }
 
-sonarqube {
-    properties {
-        property "sonar.projectKey", "com.github.grishberg:androidemulatormanager"
-        property "sonar.projectName", "androidemulatormanager"
-        property "sonar.projectVersion", "${project.version}"
-        property "sonar.sources", "src/main/java"
-        property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
-        property "sonar.test.inclusions", "**/*Test*/**"
-        property "sonar.exclusions", "**/*Test*/**"
-    }
-}
-
 jacocoTestReport {
     reports {
         xml.enabled = true
@@ -81,6 +69,8 @@ test {
         includeNoLocationClasses = true
     }
 }
+
+apply from: 'sonar.gradle'
 
 //need to call  ./gradlew clean build generateRelease
 apply from: 'publish.gradle'

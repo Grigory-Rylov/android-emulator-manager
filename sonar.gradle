@@ -1,0 +1,11 @@
+sonarqube {
+    properties {
+        property "sonar.projectKey", "com.github.grishberg:androidemulatormanager"
+        property "sonar.projectName", "androidemulatormanager"
+        property "sonar.projectVersion", "${project.version}"
+        property "sonar.sources", "src/main/java"
+        property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.test.inclusions", "**/*Test*/**"
+        property "sonar.exclusions", "**/*Test*/**"
+    }
+}
