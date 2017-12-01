@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/Grigory-Rylov/AndroidEmulatorManager.svg?branch=master)](https://travis-ci.org/Grigory-Rylov/AndroidEmulatorManager)
+[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=com.github.grishberg:androidemulatormanager)](https://sonarcloud.io/dashboard/index/com.github.grishberg:androidemulatormanager) [![Technical debt ratio](https://sonarcloud.io/api/badges/measure?key=com.github.grishberg:androidemulatormanager&metric=sqale_debt_ratio)](https://sonarcloud.io/dashboard/index/com.github.grishberg:androidemulatormanager)
+
 Gradle plugin for creating, deleting, starting and waiting Android emulators (AVD)
 
 
