@@ -1,14 +1,15 @@
 plugins {
     id "org.sonarqube" version "2.6"
     id 'java'
+    id 'groovy'
     id 'jacoco'
 }
 
 group 'com.github.grishberg'
-version '0.2.1'
+version '0.2.2'
 
 ext {
-    PUBLISH_GROUP_ID = 'com.github.grishberg'
+    PUBLISH_GROUP_ID = group
     PUBLISH_ARTIFACT_ID = 'AndroidEmulatorManager'
     PUBLISH_VERSION = version
 }
