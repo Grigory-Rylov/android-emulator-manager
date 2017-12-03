@@ -4,14 +4,14 @@ plugins {
     id 'jacoco'
 }
 
+group 'com.github.grishberg'
+version '0.2.1'
+
 ext {
     PUBLISH_GROUP_ID = 'com.github.grishberg'
     PUBLISH_ARTIFACT_ID = 'AndroidEmulatorManager'
-    PUBLISH_VERSION = '0.2.0'
+    PUBLISH_VERSION = version
 }
-
-group 'com.github.grishberg'
-version '0.2.1'
 
 sourceCompatibility = 1.8
 
