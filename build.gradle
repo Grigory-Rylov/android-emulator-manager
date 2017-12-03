@@ -11,7 +11,7 @@ ext {
 }
 
 group 'com.github.grishberg'
-version '0.2.0'
+version '0.2.1'
 
 sourceCompatibility = 1.8
 
@@ -31,6 +31,7 @@ dependencies {
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.2'
 }
+
 
 sourceSets {
     test {
@@ -69,7 +70,6 @@ test {
         includeNoLocationClasses = true
     }
 }
-
 apply from: 'sonar.gradle'
 
 //need to call  ./gradlew clean build generateRelease
