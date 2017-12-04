@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.github.grishberg'
-version '0.2.2'
+version '0.2.3'
 
 ext {
     PUBLISH_GROUP_ID = group
