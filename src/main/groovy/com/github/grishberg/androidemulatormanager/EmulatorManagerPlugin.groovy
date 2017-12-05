@@ -12,7 +12,7 @@ class EmulatorManagerPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
-        def config = project.extensions.create('emulatorManagerConfig', EmulatorManagerConfig, project)
+        def config = project.extensions.create('emulatorManagerConfig', EmulatorManagerConfig)
 
         PreferenceContext context = new PreferenceContext()
         final AdbFacade adbFacade = new AdbFacade(project.logger)
