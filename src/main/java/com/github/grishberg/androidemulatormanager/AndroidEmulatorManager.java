@@ -106,13 +106,16 @@ public class AndroidEmulatorManager {
             Thread.sleep(1000L * TIMEOUT_FOR_CYCLE);
             for (EmulatorConfig arg : args) {
                 if (isDeviceOnline(arg)) {
+                    logger.info("found online emulator: {}", arg.getName());
                     onlineDevices.add(arg.getName());
                 }
             }
             allEmulatorsAreOnline = onlineDevices.size() == args.length;
         }
         if (!allEmulatorsAreOnline) {
-            throw new AvdFacadeException();
+            throw new AvdFacadeException(
+                    String.format("Not all emulators online: %d of %d",
+                            onlineDevices.size(), args.length));
         }
     }
 
