@@ -1,7 +1,6 @@
 package com.github.grishberg.androidemulatormanager
 
 import org.gradle.api.DefaultTask
-import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 
 /**
@@ -12,10 +11,6 @@ class StopEmulatorsTask extends DefaultTask {
 
     @TaskAction
     void runTask() {
-        if (extConfig.emulatorArgs == null) {
-            throw new GradleException("Need to setup EmulatorManagerConfig extension object")
-        }
-
         emulatorManager.stopRunningEmulators()
     }
 }
