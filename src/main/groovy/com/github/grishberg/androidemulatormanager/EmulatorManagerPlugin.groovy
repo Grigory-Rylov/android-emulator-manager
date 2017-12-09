@@ -8,21 +8,34 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class EmulatorManagerPlugin implements Plugin<Project> {
+    public static final String CONFIG_NAME = 'emulatorManagerConfig'
     private AndroidEmulatorManager androidEmulatorManager
 
     @Override
     void apply(Project project) {
-        def config = project.extensions.create('emulatorManagerConfig', EmulatorManagerConfig)
+        EmulatorManagerConfig config = project.extensions.create(CONFIG_NAME, EmulatorManagerConfig)
 
         PreferenceContext context = new PreferenceContext()
         final AdbFacade adbFacade = new AdbFacade(project.logger)
         EmulatorManagerFabric emulatorManagerFabric = new EmulatorManagerFabric(project.logger)
-        HardwareManager hardwareManager = new HardwareManager(SysUtils.getAvdHomeDir(), project.logger)
-        AvdManagerFabric avdManagerFabric = new AvdManagerFabric(context, hardwareManager, project.logger)
+        HardwareManager hardwareManager = new HardwareManager(SysUtils.getAvdHomeDir(),
+                project.logger)
+        AvdManagerFabric avdManagerFabric = new AvdManagerFabric(context, hardwareManager,
+                project.logger)
         androidEmulatorManager = new AndroidEmulatorManager(context, adbFacade,
                 emulatorManagerFabric, avdManagerFabric, project.logger)
 
         adbFacade.init()
+
+        project.tasks.create(CreateAndRunEmulatorsTask.NAME, CreateAndRunEmulatorsTask) {
+            emulatorManager = androidEmulatorManager
+            extConfig = config
+        }
+
+        project.tasks.create(StopAndDeleteEmulatorsTask.NAME, StopAndDeleteEmulatorsTask) {
+            emulatorManager = androidEmulatorManager
+            extConfig = config
+        }
 
         project.tasks.create('createEmulators', CreateEmulatorsTask) {
             emulatorManager = androidEmulatorManager
