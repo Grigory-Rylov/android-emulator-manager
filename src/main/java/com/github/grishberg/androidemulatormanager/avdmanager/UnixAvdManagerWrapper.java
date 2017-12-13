@@ -9,7 +9,9 @@ import org.gradle.api.logging.Logger;
 public class UnixAvdManagerWrapper extends AvdManagerWrapper {
     public UnixAvdManagerWrapper(PreferenceContext context,
                                  HardwareManager hardwareManager,
+                                 SdkManager sdkManager,
                                  Logger logger) {
-        super(context, "/tools/bin/avdmanager", hardwareManager, logger);
+        super(context, "/tools/bin/avdmanager",
+                hardwareManager, sdkManager, logger);
     }
 }

@@ -2,6 +2,7 @@ package com.github.grishberg.androidemulatormanager;
 
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric;
 import com.github.grishberg.androidemulatormanager.avdmanager.HardwareManager;
+import com.github.grishberg.androidemulatormanager.avdmanager.SdkManager;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.junit.After;
@@ -15,9 +16,9 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
     private AndroidEmulatorManager emulatorManager;
     private AdbFacade adbFacade;
     private EmulatorConfig argPhone = new EmulatorConfig("test_phone",
-            DisplayMode.PHONE_HDPI, 26);
+            DisplayMode.PHONE_HDPI, 27);
     private EmulatorConfig argTablet = new EmulatorConfig("test_tablet",
-            DisplayMode.TABLET_XHDPI, 26);
+            DisplayMode.TABLET_XHDPI, 27);
 
     @Before
     public void setUp() throws Exception {
@@ -25,9 +26,10 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
         adbFacade = new AdbFacade(getLogger());
         adbFacade.init();
         HardwareManager hardwareManager = new HardwareManager(SysUtils.getAvdHomeDir(), getLogger());
+        SdkManager sdkManager = new SdkManager(context, "/tools/bin/sdkmanager", getLogger());
         emulatorManager = new AndroidEmulatorManager(context, adbFacade,
                 new EmulatorManagerFabric(getLogger()),
-                new AvdManagerFabric(context, hardwareManager, getLogger()),
+                new AvdManagerFabric(context, hardwareManager, sdkManager, getLogger()),
                 getLogger());
     }
 

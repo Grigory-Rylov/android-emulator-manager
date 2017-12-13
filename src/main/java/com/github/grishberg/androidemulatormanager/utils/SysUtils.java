@@ -42,6 +42,13 @@ public class SysUtils {
 
     public static List<String> executeWithArgsAndReturnOutput(Logger logger, String... cmd)
             throws IOException {
+        return executeWithArgsAndReturnOutput(false, logger, cmd);
+    }
+
+    public static List<String> executeWithArgsAndReturnOutput(boolean ignoreErrors,
+                                                              Logger logger,
+                                                              String... cmd)
+            throws IOException {
         ArrayList<String> result = new ArrayList<>();
         Runtime rt = Runtime.getRuntime();
         Process process;
@@ -71,7 +78,9 @@ public class SysUtils {
 
             String errorString = errorSb.toString();
             if (errorString.length() != 0) {
-                throw new IOException(errorString);
+                if (!ignoreErrors) {
+                    throw new IOException(errorString);
+                }
             }
         }
         return result;

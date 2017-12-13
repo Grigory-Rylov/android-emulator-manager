@@ -6,7 +6,6 @@ import com.github.grishberg.androidemulatormanager.EmulatorConfig;
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +22,8 @@ public class MacAvdManagerTest extends BaseTestCaseWithLogger {
         PreferenceContext context = new PreferenceContext();
         HardwareManager hardwareManager = new HardwareManager(SysUtils.getAvdHomeDir(),
                 getLogger());
-        avdManagerWrapper = new UnixAvdManagerWrapper(context, hardwareManager, getLogger());
+        SdkManager sdkManager = new SdkManager(context, "/tools/bin/sdkmanager", getLogger());
+        avdManagerWrapper = new UnixAvdManagerWrapper(context, hardwareManager, sdkManager, getLogger());
     }
 
     @After
@@ -34,7 +34,7 @@ public class MacAvdManagerTest extends BaseTestCaseWithLogger {
 
     @Test
     public void testCreateEmulator() throws Exception {
-        Assert.assertTrue(avdManagerWrapper.createAvd(arg1));
-        Assert.assertTrue(avdManagerWrapper.createAvd(arg2));
+        avdManagerWrapper.createAvd(arg1);
+        avdManagerWrapper.createAvd(arg2);
     }
 }

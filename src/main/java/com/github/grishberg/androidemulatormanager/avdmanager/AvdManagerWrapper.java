@@ -5,11 +5,13 @@ import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.gradle.api.logging.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PushbackInputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Wrapper for avdmanager.
@@ -17,22 +19,32 @@ import java.util.List;
 public abstract class AvdManagerWrapper {
     private final String pathToAvdManager;
     private final HardwareManager hardwareManager;
+    private final PreferenceContext context;
+    private SdkManager sdkManager;
     private final Logger logger;
 
     AvdManagerWrapper(PreferenceContext context,
                       String pathToAvdManager,
                       HardwareManager hardwareManager,
+                      SdkManager sdkManager,
                       Logger logger) {
         this.hardwareManager = hardwareManager;
+        this.sdkManager = sdkManager;
         this.logger = logger;
         this.pathToAvdManager = context.getAndroidSdkPath() + pathToAvdManager;
+        this.context = context;
     }
 
-    public boolean createAvd(EmulatorConfig arg) throws InterruptedException, AvdManagerException {
+    public void createAvd(EmulatorConfig arg) throws InterruptedException, AvdManagerException {
+        EmulatorImageType emulatorImageType = checkEmulatorImageType(arg);
+        if (emulatorImageType == EmulatorImageType.NONE) {
+            logger.lifecycle("Emulator system image not found");
+            emulatorImageType = sdkManager.installEmulatorImage(arg.getApiLevel());
+        }
         boolean isAvdCreated = false;
         Process process;
         try {
-            ProcessBuilder pb = new ProcessBuilder(buildCreateEmulatorCommand(arg));
+            ProcessBuilder pb = new ProcessBuilder(buildCreateEmulatorCommand(arg, emulatorImageType));
             process = pb.start();
         } catch (IOException e) {
             throw new AvdManagerException("exception while creating emulator", e);
@@ -78,10 +90,29 @@ public abstract class AvdManagerWrapper {
         } finally {
             process.destroy();
         }
-        if (isAvdCreated) {
-            hardwareManager.writeHardwareFile(arg);
+        if (!isAvdCreated) {
+            throw new NoEmulatorImageException(
+                    String.format(Locale.US, "Emulator image for API %d not found",
+                            arg.getApiLevel()));
         }
-        return isAvdCreated;
+        hardwareManager.writeHardwareFile(arg);
+    }
+
+    private EmulatorImageType checkEmulatorImageType(EmulatorConfig arg) {
+        if (checkImageForTypeExists(arg, "google_apis")) {
+            return EmulatorImageType.GOOGLE_APIS;
+        }
+        if (checkImageForTypeExists(arg, "default")) {
+            return EmulatorImageType.DEFAULT;
+        }
+        return EmulatorImageType.NONE;
+    }
+
+    private boolean checkImageForTypeExists(EmulatorConfig arg, String imageType) {
+        File imagePath = new File(context.getAndroidSdkPath(),
+                String.format(Locale.US, "system-images/android-%d/%s/system.img",
+                        arg.getApiLevel(), imageType));
+        return imagePath.exists();
     }
 
     public void deleteAvd(EmulatorConfig arg) throws AvdManagerException {
@@ -92,7 +123,8 @@ public abstract class AvdManagerWrapper {
         }
     }
 
-    private List<String> buildCreateEmulatorCommand(EmulatorConfig arg) {
+    private List<String> buildCreateEmulatorCommand(EmulatorConfig arg,
+                                                    EmulatorImageType emulatorImageType) {
         ArrayList<String> params = new ArrayList<>();
         params.add(pathToAvdManager);
         params.add("-s");
@@ -101,17 +133,17 @@ public abstract class AvdManagerWrapper {
         params.add("-n");
         params.add(arg.getName());
         params.add("-k");
-        params.add(buildSdkId(arg));
+        params.add(buildSdkId(arg, emulatorImageType));
         return params;
     }
 
-    private String buildSdkId(EmulatorConfig arg) {
+    private String buildSdkId(EmulatorConfig arg, EmulatorImageType emulatorImageType) {
         StringBuilder sb = new StringBuilder();
         sb.append("system-images;");
         sb.append("android-");
         sb.append(arg.getApiLevel());
         sb.append(";");
-        sb.append("google_apis");
+        sb.append(emulatorImageType.getImageName());
         if (arg.isWithPlaystore()) {
             sb.append("_playstore");
         }
