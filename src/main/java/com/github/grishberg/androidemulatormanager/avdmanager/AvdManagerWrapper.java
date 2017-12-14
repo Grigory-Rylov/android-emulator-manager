@@ -5,13 +5,14 @@ import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.gradle.api.logging.Logger;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PushbackInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import static com.github.grishberg.androidemulatormanager.utils.SysUtils.getAvdSystemImage;
 
 /**
  * Wrapper for avdmanager.
@@ -39,7 +40,7 @@ public abstract class AvdManagerWrapper {
         EmulatorImageType emulatorImageType = checkEmulatorImageType(arg);
         if (emulatorImageType == EmulatorImageType.NONE) {
             logger.lifecycle("Emulator system image not found");
-            emulatorImageType = sdkManager.installEmulatorImage(arg.getApiLevel());
+            emulatorImageType = sdkManager.installEmulatorImage(arg);
         }
         boolean isAvdCreated = false;
         Process process;
@@ -99,20 +100,13 @@ public abstract class AvdManagerWrapper {
     }
 
     private EmulatorImageType checkEmulatorImageType(EmulatorConfig arg) {
-        if (checkImageForTypeExists(arg, "google_apis")) {
+        if (getAvdSystemImage(context, arg.getApiLevel(), "google_apis").exists()) {
             return EmulatorImageType.GOOGLE_APIS;
         }
-        if (checkImageForTypeExists(arg, "default")) {
+        if (getAvdSystemImage(context, arg.getApiLevel(), "default").exists()) {
             return EmulatorImageType.DEFAULT;
         }
         return EmulatorImageType.NONE;
-    }
-
-    private boolean checkImageForTypeExists(EmulatorConfig arg, String imageType) {
-        File imagePath = new File(context.getAndroidSdkPath(),
-                String.format(Locale.US, "system-images/android-%d/%s/system.img",
-                        arg.getApiLevel(), imageType));
-        return imagePath.exists();
     }
 
     public void deleteAvd(EmulatorConfig arg) throws AvdManagerException {
