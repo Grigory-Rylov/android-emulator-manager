@@ -38,12 +38,23 @@ public class HardwareManager {
             prop.setProperty("skin.name", String.format("%dx%d",
                     config.getDisplayMode().getWidth(),
                     config.getDisplayMode().getHeight()));
+            if (config.getSdCardSize() > 0) {
+                String sdCardSizeAsString = getSdCardSizeAsString(config.getSdCardSize());
+                prop.setProperty("disk.dataPartition.size", sdCardSizeAsString);
+            }
 
             // save properties to project root folder
             prop.store(output, null);
         } catch (IOException e) {
             logger.error("Error while writing " + configName, e);
         }
+    }
+
+    private String getSdCardSizeAsString(int sdCardSize) {
+        if (sdCardSize > 1024 && sdCardSize % 1024 == 0) {
+            return String.format(Locale.US, "%dG,", sdCardSize / 1024);
+        }
+        return String.format(Locale.US, "%dMB", sdCardSize);
     }
 
     private HashMap<String, String> readDefaultConfig(String fileName) {
