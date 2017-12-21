@@ -8,7 +8,8 @@ public class EmulatorConfig {
     private DisplayMode displayMode;
     private int apiLevel;
     private boolean withPlayStore;
-    private int sdCardSize;
+    private int diskSize = 800;
+    private int sdCardSize = 100;
 
     public static EmulatorConfig argsFromJson(String argsAsJson) {
         //TODO: extract parameters from json
@@ -48,5 +49,13 @@ public class EmulatorConfig {
 
     public void setSdCardSize(int sdCardSize) {
         this.sdCardSize = sdCardSize;
+    }
+
+    public int getDiskSize() {
+        return diskSize;
+    }
+
+    public void setDiskSize(int diskSize) {
+        this.diskSize = diskSize;
     }
 }

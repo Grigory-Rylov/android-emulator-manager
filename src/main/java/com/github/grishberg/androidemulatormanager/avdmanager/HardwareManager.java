@@ -38,9 +38,11 @@ public class HardwareManager {
             prop.setProperty("skin.name", String.format("%dx%d",
                     config.getDisplayMode().getWidth(),
                     config.getDisplayMode().getHeight()));
+            if (config.getDiskSize() > 0) {
+                prop.setProperty("disk.dataPartition.size", getDiskSizeAsString(config.getDiskSize()));
+            }
             if (config.getSdCardSize() > 0) {
-                String sdCardSizeAsString = getSdCardSizeAsString(config.getSdCardSize());
-                prop.setProperty("disk.dataPartition.size", sdCardSizeAsString);
+                prop.setProperty("sdcard.size", getDiskSizeAsString(config.getSdCardSize()));
             }
 
             // save properties to project root folder
@@ -50,11 +52,11 @@ public class HardwareManager {
         }
     }
 
-    private String getSdCardSizeAsString(int sdCardSize) {
+    private String getDiskSizeAsString(int sdCardSize) {
         if (sdCardSize > 1024 && sdCardSize % 1024 == 0) {
             return String.format(Locale.US, "%dG,", sdCardSize / 1024);
         }
-        return String.format(Locale.US, "%dMB", sdCardSize);
+        return String.format(Locale.US, "%dM", sdCardSize);
     }
 
     private HashMap<String, String> readDefaultConfig(String fileName) {
