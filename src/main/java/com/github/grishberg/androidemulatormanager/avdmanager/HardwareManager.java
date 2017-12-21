@@ -54,7 +54,7 @@ public class HardwareManager {
 
     private String getDiskSizeAsString(int sdCardSize) {
         if (sdCardSize > 1024 && sdCardSize % 1024 == 0) {
-            return String.format(Locale.US, "%dG,", sdCardSize / 1024);
+            return String.format(Locale.US, "%dG", sdCardSize / 1024);
         }
         return String.format(Locale.US, "%dM", sdCardSize);
     }
