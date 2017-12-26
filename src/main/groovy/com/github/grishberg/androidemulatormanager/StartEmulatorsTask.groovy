@@ -8,6 +8,7 @@ import org.gradle.api.tasks.TaskAction
  * Created by grishberg on 19.11.17.
  */
 class StartEmulatorsTask extends DefaultTask {
+    public static final String NAME = 'startEmulators'
     AndroidEmulatorManager emulatorManager
     EmulatorManagerConfig extConfig
 

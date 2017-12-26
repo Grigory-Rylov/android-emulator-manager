@@ -8,6 +8,7 @@ import org.gradle.api.tasks.TaskAction
  * Created by grishberg on 19.11.17.
  */
 class WaitForEmulatorsTask extends DefaultTask {
+    public static final String NAME = "waitForEmulators"
     AndroidEmulatorManager emulatorManager
     EmulatorManagerConfig extConfig
 

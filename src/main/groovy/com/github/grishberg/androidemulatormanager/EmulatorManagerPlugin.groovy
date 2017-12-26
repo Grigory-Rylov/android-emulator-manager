@@ -46,17 +46,17 @@ class EmulatorManagerPlugin implements Plugin<Project> {
             extConfig = config
         }
 
-        project.tasks.create('startEmulators', StartEmulatorsTask) {
+        project.tasks.create(StartEmulatorsTask.NAME, StartEmulatorsTask) {
             emulatorManager = androidEmulatorManager
             extConfig = config
         }
 
-        project.tasks.create('waitForEmulators', WaitForEmulatorsTask) {
+        project.tasks.create(WaitForEmulatorsTask.NAME, WaitForEmulatorsTask) {
             emulatorManager = androidEmulatorManager
             extConfig = config
         }
 
-        project.tasks.create('stopRunningEmulators', StopEmulatorsTask) {
+        project.tasks.create(StopEmulatorsTask.NAME, StopEmulatorsTask) {
             emulatorManager = androidEmulatorManager
         }
 
