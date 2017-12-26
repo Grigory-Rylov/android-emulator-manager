@@ -10,8 +10,9 @@ import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManag
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.gradle.api.logging.Logger;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
@@ -25,7 +26,7 @@ public class AndroidEmulatorManager {
     private final EmulatorManagerWrapper emulatorManager;
     private final AdbFacade adbFacade;
     private final AvdManagerWrapper avdManager;
-    private final ArrayList<AndroidEmulator> startedEmulators = new ArrayList<>();
+    private final Map<EmulatorConfig, AndroidEmulator> startedEmulators = new HashMap<>();
     private final Logger logger;
 
     public AndroidEmulatorManager(PreferenceContext context,
@@ -78,13 +79,12 @@ public class AndroidEmulatorManager {
      * @throws EmulatorManagerException
      */
     public AndroidEmulator[] startEmulators(EmulatorConfig[] args) throws EmulatorManagerException {
-        ArrayList<AndroidEmulator> result = new ArrayList<>();
         for (EmulatorConfig arg : args) {
             logger.info("startEmulators {}", arg.getName());
-            result.add(emulatorManager.startEmulator(arg));
+            startedEmulators.put(arg, emulatorManager.startEmulator(arg));
         }
-        startedEmulators.addAll(result);
-        return result.toArray(new AndroidEmulator[result.size()]);
+
+        return startedEmulators.values().toArray(new AndroidEmulator[startedEmulators.size()]);
     }
 
     /**
@@ -94,14 +94,14 @@ public class AndroidEmulatorManager {
         logger.info("stopRunningEmulators");
         CountDownLatch countDownLatch = new CountDownLatch(startedEmulators.size());
 
-        for (final AndroidEmulator emulator : startedEmulators) {
+        for (final Map.Entry<EmulatorConfig, AndroidEmulator> entry : startedEmulators.entrySet()) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        emulator.stopProcess();
+                        entry.getValue().stopProcess();
                     } catch (InterruptedException e) {
-                        logger.error("stopRunningEmulators {}", emulator.getAvdName(), e);
+                        logger.error("stopRunningEmulators {}", entry.getValue().getAvdName(), e);
                     } finally {
                         countDownLatch.countDown();
                     }
@@ -121,36 +121,44 @@ public class AndroidEmulatorManager {
      */
     public void waitForEmulatorStarts(EmulatorConfig[] args, long timeout)
             throws InterruptedException, AvdFacadeException {
+        boolean allEmulatorsAreOnline = false;
         HashSet<String> onlineDevices = new HashSet<>();
         long timeoutTime = System.currentTimeMillis() + timeout;
-        boolean allEmulatorsAreOnline = false;
 
         while (!allEmulatorsAreOnline && System.currentTimeMillis() < timeoutTime) {
             Thread.sleep(1000L * TIMEOUT_FOR_CYCLE);
             for (EmulatorConfig arg : args) {
-                if (isDeviceOnline(arg)) {
+                IDevice device = findOnlineDeviceForConfig(arg);
+                if (device != null) {
                     logger.info("found online emulator: {}", arg.getName());
                     onlineDevices.add(arg.getName());
+                    updateAndroidEmulatorWithDevice(arg, device);
                 }
             }
             allEmulatorsAreOnline = onlineDevices.size() == args.length;
         }
         if (!allEmulatorsAreOnline) {
-            throw new AvdFacadeException(
-                    String.format("Not all emulators online: %d of %d",
+            throw new AvdFacadeException(String.format("Not all emulators online: %d of %d",
                             onlineDevices.size(), args.length));
         }
     }
 
-    //TODO: update AndroidEmulator model with IDevice reference
-    private boolean isDeviceOnline(EmulatorConfig arg) throws InterruptedException {
+    private void updateAndroidEmulatorWithDevice(EmulatorConfig arg, IDevice device) {
+        AndroidEmulator currentEmulator = startedEmulators.get(arg);
+        if (currentEmulator != null) {
+            currentEmulator.setConnectedDevice(new AvdStopperImpl(device, logger));
+        }
+    }
+
+    private IDevice findOnlineDeviceForConfig(EmulatorConfig arg) throws InterruptedException {
         IDevice[] devices = adbFacade.getDevices();
         for (IDevice device : devices) {
-            if (arg.getName().equals(device.getAvdName())) {
-                return device.isOnline() && isDeviceReady(device);
+            if (arg.getName().equals(device.getAvdName()) && device.isOnline()
+                    && isDeviceReady(device)) {
+                return device;
             }
         }
-        return false;
+        return null;
     }
 
     private boolean isDeviceReady(IDevice device) throws InterruptedException {

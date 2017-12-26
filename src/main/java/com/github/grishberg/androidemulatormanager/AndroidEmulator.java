@@ -11,6 +11,7 @@ public class AndroidEmulator {
     private final Logger logger;
     private final Process emulatorsProcess;
     private final EmulatorConfig config;
+    private AvdStopper connectedDevice = new EmptyEmulatorStopper();
 
     public AndroidEmulator(Process emulatorsProcess,
                            EmulatorConfig config, Logger logger) {
@@ -24,23 +25,31 @@ public class AndroidEmulator {
     }
 
     public void stopProcess() throws InterruptedException {
-        for (int i = 0; i < 60; i++) {
-            logger.info("try #{} to stop emulator {}", i + 1, config.getName());
-            emulatorsProcess.destroy();
-            emulatorsProcess.waitFor(1, TimeUnit.SECONDS);
+        logger.info("try to stop emulator {}", config.getName());
+        connectedDevice.stopEmulator();
+        for (int i = 0; i < 12; i++) {
+            emulatorsProcess.waitFor(5, TimeUnit.SECONDS);
             if (!emulatorsProcess.isAlive()) {
-                logger.info("emulator {} is not alive", config.getName());
-                break;
+                logger.info("emulator {} stopped", config.getName());
+                return;
             }
         }
-        if (emulatorsProcess.isAlive()) {
-            logger.info("emulator {} destroyForcibly", config.getName());
-            emulatorsProcess.destroyForcibly();
-        }
-        logger.info("emulator {} stopped", config.getName());
+        logger.info("emulator {} destroyForcibly", config.getName());
+        emulatorsProcess.destroyForcibly();
     }
 
     public String getAvdName() {
         return config.getName();
+    }
+
+    public void setConnectedDevice(AvdStopper connectedDevice) {
+        this.connectedDevice = connectedDevice;
+    }
+
+    private static class EmptyEmulatorStopper implements AvdStopper {
+        @Override
+        public void stopEmulator() {
+            // not used
+        }
     }
 }
