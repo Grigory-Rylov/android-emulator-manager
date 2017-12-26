@@ -2,6 +2,8 @@ package com.github.grishberg.androidemulatormanager;
 
 import org.gradle.api.logging.Logger;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Contains info about started emulator.
  */
@@ -22,9 +24,19 @@ public class AndroidEmulator {
     }
 
     public void stopProcess() throws InterruptedException {
-        logger.info("try to stop emulator {}", config.getName());
-        emulatorsProcess.destroy();
-        emulatorsProcess.waitFor();
+        for (int i = 0; i < 60; i++) {
+            logger.info("try #{} to stop emulator {}", i + 1, config.getName());
+            emulatorsProcess.destroy();
+            emulatorsProcess.waitFor(1, TimeUnit.SECONDS);
+            if (!emulatorsProcess.isAlive()) {
+                logger.info("emulator {} is not alive", config.getName());
+                break;
+            }
+        }
+        if (emulatorsProcess.isAlive()) {
+            logger.info("emulator {} destroyForcibly", config.getName());
+            emulatorsProcess.destroyForcibly();
+        }
         logger.info("emulator {} stopped", config.getName());
     }
 
