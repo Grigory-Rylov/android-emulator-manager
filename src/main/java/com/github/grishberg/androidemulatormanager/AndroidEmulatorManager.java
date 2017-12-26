@@ -7,11 +7,12 @@ import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerWrapper;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerException;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerWrapper;
+import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.gradle.api.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -48,7 +49,12 @@ public class AndroidEmulatorManager {
     public void createEmulators(EmulatorConfig[] args) throws InterruptedException,
             AvdManagerException {
         for (EmulatorConfig arg : args) {
-            avdManager.createAvd(arg);
+            if (!SysUtils.getAvdConfig(arg.getName()).exists()) {
+                logger.info("createEmulators {}", arg.getName());
+                avdManager.createAvd(arg);
+            } else {
+                logger.info("createEmulators {}: emulator exists.", arg.getName());
+            }
         }
     }
 
@@ -60,6 +66,7 @@ public class AndroidEmulatorManager {
      */
     public void deleteEmulators(EmulatorConfig[] args) throws AvdManagerException {
         for (EmulatorConfig arg : args) {
+            logger.info("deleteEmulators {}", arg.getName());
             avdManager.deleteAvd(arg);
         }
     }
@@ -73,6 +80,7 @@ public class AndroidEmulatorManager {
     public AndroidEmulator[] startEmulators(EmulatorConfig[] args) throws EmulatorManagerException {
         ArrayList<AndroidEmulator> result = new ArrayList<>();
         for (EmulatorConfig arg : args) {
+            logger.info("startEmulators {}", arg.getName());
             result.add(emulatorManager.startEmulator(arg));
         }
         startedEmulators.addAll(result);
@@ -82,12 +90,27 @@ public class AndroidEmulatorManager {
     /**
      * Stops launched emulators.
      */
-    public void stopRunningEmulators() {
-        Iterator<AndroidEmulator> it = startedEmulators.iterator();
-        while (it.hasNext()) {
-            it.next().stopProcess();
-            it.remove();
+    public void stopRunningEmulators() throws InterruptedException {
+        logger.info("stopRunningEmulators");
+        CountDownLatch countDownLatch = new CountDownLatch(startedEmulators.size());
+
+        for (final AndroidEmulator emulator : startedEmulators) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        emulator.stopProcess();
+                    } catch (InterruptedException e) {
+                        logger.error("stopRunningEmulators {}", emulator.getAvdName(), e);
+                    } finally {
+                        countDownLatch.countDown();
+                    }
+                }
+            }).start();
         }
+        countDownLatch.await();
+
+        startedEmulators.clear();
     }
 
     /**

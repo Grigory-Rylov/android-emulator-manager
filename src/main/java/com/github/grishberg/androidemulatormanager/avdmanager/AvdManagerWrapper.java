@@ -112,6 +112,7 @@ public abstract class AvdManagerWrapper {
     public void deleteAvd(EmulatorConfig arg) throws AvdManagerException {
         try {
             SysUtils.executeWithArgsAndReturnOutput(logger, buildDeleteAvdCommand(arg));
+            //TODO: remove folder
         } catch (IOException e) {
             throw new AvdManagerException("exception while deleting avd", e);
         }

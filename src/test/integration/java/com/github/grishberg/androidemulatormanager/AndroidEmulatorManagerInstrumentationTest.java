@@ -16,9 +16,9 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
     private AndroidEmulatorManager emulatorManager;
     private AdbFacade adbFacade;
     private EmulatorConfig argPhone = new EmulatorConfig("test_phone",
-            DisplayMode.PHONE_HDPI, 19);
+            DisplayMode.PHONE_HDPI, 26);
     private EmulatorConfig argTablet = new EmulatorConfig("test_tablet",
-            DisplayMode.TABLET_XHDPI, 19);
+            DisplayMode.TABLET_XHDPI, 26);
 
     @Before
     public void setUp() throws Exception {
@@ -45,6 +45,6 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
         emulatorManager.startEmulators(args);
         emulatorManager.waitForEmulatorStarts(args, 60 * 1000);
         emulatorManager.stopRunningEmulators();
-        emulatorManager.deleteEmulators(args);
+        //emulatorManager.deleteEmulators(args);
     }
 }
