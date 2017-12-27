@@ -24,7 +24,7 @@ public class AndroidEmulator {
         return emulatorsProcess.isAlive();
     }
 
-    public void stopProcess() throws InterruptedException {
+    public void stopEmulator() throws InterruptedException {
         logger.info("try to stop emulator {}", config.getName());
         connectedDevice.stopEmulator();
         for (int i = 0; i < 12; i++) {
@@ -34,6 +34,11 @@ public class AndroidEmulator {
                 return;
             }
         }
+        logger.info("emulator {} destroyForcibly", config.getName());
+        emulatorsProcess.destroyForcibly();
+    }
+
+    public void stopEmulatorForcibly(){
         logger.info("emulator {} destroyForcibly", config.getName());
         emulatorsProcess.destroyForcibly();
     }

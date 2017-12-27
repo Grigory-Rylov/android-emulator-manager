@@ -23,6 +23,7 @@ public class AndroidEmulatorManager {
     private static final int TIMEOUT_FOR_CYCLE = 5;
     private static final String STOPPED = "stopped";
     private static final String PROPERTY_BOOTANIM = "init.svc.bootanim";
+    public static final int TRIES_COUNT = 3;
     private final EmulatorManagerWrapper emulatorManager;
     private final AdbFacade adbFacade;
     private final AvdManagerWrapper avdManager;
@@ -99,7 +100,7 @@ public class AndroidEmulatorManager {
                 @Override
                 public void run() {
                     try {
-                        entry.getValue().stopProcess();
+                        entry.getValue().stopEmulator();
                     } catch (InterruptedException e) {
                         logger.error("stopRunningEmulators {}", entry.getValue().getAvdName(), e);
                     } finally {
@@ -120,7 +121,22 @@ public class AndroidEmulatorManager {
      * @param timeout timeout for waiting emulators in milliseconds.
      */
     public void waitForEmulatorStarts(EmulatorConfig[] args, long timeout)
-            throws InterruptedException, AvdFacadeException {
+            throws InterruptedException, AvdTimeoutException, EmulatorManagerException {
+        for (int i = 0; i < TRIES_COUNT; i++) {
+            try {
+                checkAllEmulatorsAreOnline(args, timeout);
+                return;
+            } catch (AvdTimeoutException e) {
+                stopRunningEmulatorsForcibly();
+                adbFacade.terminate();
+                adbFacade.init();
+                startEmulators(args);
+                logger.error("waitForEmulatorStarts: ", e);
+            }
+        }
+    }
+
+    private void checkAllEmulatorsAreOnline(EmulatorConfig[] args, long timeout) throws InterruptedException, AvdTimeoutException {
         boolean allEmulatorsAreOnline = false;
         HashSet<String> onlineDevices = new HashSet<>();
         long timeoutTime = System.currentTimeMillis() + timeout;
@@ -138,8 +154,18 @@ public class AndroidEmulatorManager {
             allEmulatorsAreOnline = onlineDevices.size() == args.length;
         }
         if (!allEmulatorsAreOnline) {
-            throw new AvdFacadeException(String.format("Not all emulators online: %d of %d",
-                            onlineDevices.size(), args.length));
+            throw new AvdTimeoutException(String.format("Not all emulators online: %d of %d",
+                    onlineDevices.size(), args.length));
+        }
+    }
+
+    private void stopRunningEmulatorsForcibly() {
+        logger.info("stopRunningEmulatorsForcibly");
+
+        for (final Map.Entry<EmulatorConfig, AndroidEmulator> entry : startedEmulators.entrySet()) {
+            entry.getValue().stopEmulatorForcibly();
+
+            startedEmulators.clear();
         }
     }
 
