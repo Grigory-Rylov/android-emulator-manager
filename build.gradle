@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'com.github.grishberg'
-version '0.3.6'
+version '0.3.7'
 
 ext {
     PUBLISH_GROUP_ID = group
@@ -80,3 +80,13 @@ apply from: 'publish.gradle'
 
 // ./gradlew bintrayUpload
 apply from: 'deploy_in_jcenter.gradle'
+
+apply plugin: 'maven-publish'
+// ./gradlew publishToMavenLocal
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+}
