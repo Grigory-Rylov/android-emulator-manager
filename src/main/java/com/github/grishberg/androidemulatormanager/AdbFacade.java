@@ -8,16 +8,18 @@ import org.gradle.api.logging.Logger;
  * Facade for adb.
  */
 public class AdbFacade {
+    private final PreferenceContext preferenceContext;
     private final Logger logger;
     private AndroidDebugBridge adb;
 
-    public AdbFacade(Logger logger) {
+    public AdbFacade(PreferenceContext preferenceContext, Logger logger) {
+        this.preferenceContext = preferenceContext;
         this.logger = logger;
     }
 
     public void init() throws InterruptedException {
         AndroidDebugBridge.initIfNeeded(false);
-        adb = AndroidDebugBridge.createBridge();
+        adb = AndroidDebugBridge.createBridge(preferenceContext.getAndroidSdkPath() + "/platform-tools/adb", false);
         waitForAdb();
         logger.info("adb initiated");
     }

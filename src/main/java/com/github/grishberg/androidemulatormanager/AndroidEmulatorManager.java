@@ -103,6 +103,7 @@ public class AndroidEmulatorManager {
                         entry.getValue().stopEmulator();
                     } catch (InterruptedException e) {
                         logger.error("stopRunningEmulators {}", entry.getValue().getAvdName(), e);
+                        Thread.currentThread().interrupt();
                     } finally {
                         countDownLatch.countDown();
                     }
@@ -127,11 +128,11 @@ public class AndroidEmulatorManager {
                 checkAllEmulatorsAreOnline(args, timeout);
                 return;
             } catch (AvdTimeoutException e) {
+                logger.error("WaitForEmulatorStarts: timeout exception", e);
                 stopRunningEmulatorsForcibly();
                 adbFacade.terminate();
                 adbFacade.init();
                 startEmulators(args);
-                logger.error("waitForEmulatorStarts: ", e);
             }
         }
     }
@@ -154,6 +155,7 @@ public class AndroidEmulatorManager {
             allEmulatorsAreOnline = onlineDevices.size() == args.length;
         }
         if (!allEmulatorsAreOnline) {
+
             throw new AvdTimeoutException(String.format("Not all emulators online: %d of %d",
                     onlineDevices.size(), args.length));
         }
@@ -179,6 +181,8 @@ public class AndroidEmulatorManager {
     private IDevice findOnlineDeviceForConfig(EmulatorConfig arg) throws InterruptedException {
         IDevice[] devices = adbFacade.getDevices();
         for (IDevice device : devices) {
+            logger.info("findOnlineDeviceForConfig: current device = {}, arg = {}",
+                    device.getName(), arg.getName());
             if (arg.getName().equals(device.getAvdName()) && device.isOnline()
                     && isDeviceReady(device)) {
                 return device;

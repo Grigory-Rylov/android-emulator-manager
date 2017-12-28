@@ -17,7 +17,7 @@ class EmulatorManagerPlugin implements Plugin<Project> {
         EmulatorManagerConfig config = project.extensions.create(CONFIG_NAME, EmulatorManagerConfig)
 
         PreferenceContext context = new PreferenceContext()
-        final AdbFacade adbFacade = new AdbFacade(project.logger)
+        final AdbFacade adbFacade = new AdbFacade(context, project.logger)
         EmulatorManagerFabric emulatorManagerFabric = new EmulatorManagerFabric(project.logger)
         HardwareManager hardwareManager = new HardwareManager(SysUtils.getAvdHomeDir(),
                 project.logger)
@@ -41,7 +41,7 @@ class EmulatorManagerPlugin implements Plugin<Project> {
             extConfig = config
         }
 
-        project.tasks.create('createEmulators', CreateEmulatorsTask) {
+        project.tasks.create(CreateEmulatorsTask.NAME, CreateEmulatorsTask) {
             emulatorManager = androidEmulatorManager
             extConfig = config
         }
