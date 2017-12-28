@@ -1,11 +1,13 @@
 package com.github.grishberg.androidemulatormanager.utils;
 
+import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import org.gradle.api.logging.Logger;
 
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Helpers methods.
@@ -40,7 +42,21 @@ public class SysUtils {
         return new File(getAvdHomeDir(), name + ".ini");
     }
 
+    public static File getAvdSystemImage(PreferenceContext context,
+                                   int apiLevel, String imageType) {
+        return new File(context.getAndroidSdkPath(),
+                String.format(Locale.US, "system-images/android-%d/%s/x86/system.img",
+                        apiLevel, imageType));
+    }
+
     public static List<String> executeWithArgsAndReturnOutput(Logger logger, String... cmd)
+            throws IOException {
+        return executeWithArgsAndReturnOutput(false, logger, cmd);
+    }
+
+    public static List<String> executeWithArgsAndReturnOutput(boolean ignoreErrors,
+                                                              Logger logger,
+                                                              String... cmd)
             throws IOException {
         ArrayList<String> result = new ArrayList<>();
         Runtime rt = Runtime.getRuntime();
@@ -71,7 +87,9 @@ public class SysUtils {
 
             String errorString = errorSb.toString();
             if (errorString.length() != 0) {
-                throw new IOException(errorString);
+                if (!ignoreErrors) {
+                    throw new IOException(errorString);
+                }
             }
         }
         return result;

@@ -2,6 +2,7 @@ package com.github.grishberg.androidemulatormanager;
 
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric;
 import com.github.grishberg.androidemulatormanager.avdmanager.HardwareManager;
+import com.github.grishberg.androidemulatormanager.avdmanager.SdkManager;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.junit.After;
@@ -22,12 +23,13 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
     @Before
     public void setUp() throws Exception {
         PreferenceContext context = new PreferenceContext();
-        adbFacade = new AdbFacade(getLogger());
+        adbFacade = new AdbFacade(context, getLogger());
         adbFacade.init();
         HardwareManager hardwareManager = new HardwareManager(SysUtils.getAvdHomeDir(), getLogger());
+        SdkManager sdkManager = new SdkManager(context, "/tools/bin/sdkmanager", getLogger());
         emulatorManager = new AndroidEmulatorManager(context, adbFacade,
                 new EmulatorManagerFabric(getLogger()),
-                new AvdManagerFabric(context, hardwareManager, getLogger()),
+                new AvdManagerFabric(context, hardwareManager, sdkManager, getLogger()),
                 getLogger());
     }
 
@@ -43,6 +45,6 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
         emulatorManager.startEmulators(args);
         emulatorManager.waitForEmulatorStarts(args, 60 * 1000);
         emulatorManager.stopRunningEmulators();
-        emulatorManager.deleteEmulators(args);
+        //emulatorManager.deleteEmulators(args);
     }
 }

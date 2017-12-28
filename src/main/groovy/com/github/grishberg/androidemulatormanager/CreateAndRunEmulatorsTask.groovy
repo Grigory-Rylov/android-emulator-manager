@@ -5,7 +5,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
 
 /**
- * Created by grishberg on 07.12.17.
+ * Task creates and starts emulators.
  */
 class CreateAndRunEmulatorsTask extends DefaultTask {
     public static final String NAME = 'createAndRunEmulators'
@@ -14,6 +14,13 @@ class CreateAndRunEmulatorsTask extends DefaultTask {
 
     @TaskAction
     void runTask() {
+        //TODO: make CLI parser that creates array of EmulatorConfig
+        if (project.hasProperty('api') && extConfig.emulatorArgs == null) {
+            int apiLevel = Integer.parseInt(project.property('api') as String)
+            EmulatorConfig defaultConfig = new EmulatorConfig("phone_avd",
+                    DisplayMode.PHONE_HDPI, apiLevel)
+            extConfig.emulatorArgs = [defaultConfig]
+        }
         if (extConfig.emulatorArgs == null) {
             throw new GradleException("Need to setup EmulatorManagerConfig extension object")
         }

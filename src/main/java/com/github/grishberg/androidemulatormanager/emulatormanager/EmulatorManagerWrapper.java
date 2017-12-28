@@ -27,9 +27,9 @@ public abstract class EmulatorManagerWrapper {
         try {
             ProcessBuilder pb = new ProcessBuilder(buildStartEmulatorCommand(arg));
             process = pb.start();
-            result = new AndroidEmulator(process, arg);
+            result = new AndroidEmulator(process, arg, logger);
         } catch (IOException e) {
-            throw new EmulatorManagerException("exception while starting emulator", e);
+            throw new EmulatorManagerException("Exception while starting emulator", e);
         }
         return result;
     }

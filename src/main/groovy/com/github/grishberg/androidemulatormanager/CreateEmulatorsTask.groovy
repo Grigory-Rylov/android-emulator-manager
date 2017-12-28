@@ -8,6 +8,7 @@ import org.gradle.api.tasks.TaskAction
  * Created by grishberg on 19.11.17.
  */
 class CreateEmulatorsTask extends DefaultTask {
+    public static final String NAME = "createEmulators"
     AndroidEmulatorManager emulatorManager
     EmulatorManagerConfig extConfig
 

@@ -10,13 +10,16 @@ import org.gradle.api.logging.Logger;
 public class AvdManagerFabric extends AbsProvider {
     private final PreferenceContext context;
     private final HardwareManager hardwareManager;
+    private SdkManager sdkManager;
     private final Logger logger;
 
     public AvdManagerFabric(PreferenceContext context,
                             HardwareManager hardwareManager,
+                            SdkManager sdkManager,
                             Logger logger) {
         this.context = context;
         this.hardwareManager = hardwareManager;
+        this.sdkManager = sdkManager;
         this.logger = logger;
     }
 
@@ -25,9 +28,9 @@ public class AvdManagerFabric extends AbsProvider {
         if (isWindows()) {
             throw new NoSuchMethodError();
         } else if (isMac()) {
-            return new UnixAvdManagerWrapper(context, hardwareManager, logger);
+            return new UnixAvdManagerWrapper(context, hardwareManager, sdkManager, logger);
         } else if (isUnix()) {
-            return new UnixAvdManagerWrapper(context, hardwareManager, logger);
+            return new UnixAvdManagerWrapper(context, hardwareManager, sdkManager, logger);
         } else if (isSolaris()) {
             throw new NoSuchMethodError();
         } else {
