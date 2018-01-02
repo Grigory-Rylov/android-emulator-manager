@@ -6,4 +6,6 @@ package com.github.grishberg.androidemulatormanager
 class EmulatorManagerConfig {
     EmulatorConfig[] emulatorArgs
     long waitingTimeout = 60 * 1000
+    String androidSdkPath
+    String userHome
 }

@@ -17,6 +17,7 @@ class WaitForEmulatorsTask extends DefaultTask {
         if (extConfig.emulatorArgs == null) {
             throw new GradleException("Need to setup EmulatorManagerConfig extension object")
         }
+        emulatorManager.initIfNeeded()
 
         emulatorManager.waitForEmulatorStarts(extConfig.emulatorArgs, extConfig.waitingTimeout)
     }

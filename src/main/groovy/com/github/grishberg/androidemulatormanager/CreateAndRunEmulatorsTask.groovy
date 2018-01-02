@@ -15,19 +15,25 @@ class CreateAndRunEmulatorsTask extends DefaultTask {
     @TaskAction
     void runTask() {
         //TODO: make CLI parser that creates array of EmulatorConfig
+        initCli()
+        if (extConfig.emulatorArgs == null) {
+            throw new GradleException("Need to setup EmulatorManagerConfig extension object")
+        }
+        emulatorManager.initIfNeeded()
+
+        emulatorManager.createEmulators(extConfig.emulatorArgs)
+
+        emulatorManager.startEmulators(extConfig.emulatorArgs)
+
+        emulatorManager.waitForEmulatorStarts(extConfig.emulatorArgs, extConfig.waitingTimeout)
+    }
+
+    private void initCli() {
         if (project.hasProperty('api') && extConfig.emulatorArgs == null) {
             int apiLevel = Integer.parseInt(project.property('api') as String)
             EmulatorConfig defaultConfig = new EmulatorConfig("phone_avd",
                     DisplayMode.PHONE_HDPI, apiLevel)
             extConfig.emulatorArgs = [defaultConfig]
         }
-        if (extConfig.emulatorArgs == null) {
-            throw new GradleException("Need to setup EmulatorManagerConfig extension object")
-        }
-        emulatorManager.createEmulators(extConfig.emulatorArgs)
-
-        emulatorManager.startEmulators(extConfig.emulatorArgs)
-
-        emulatorManager.waitForEmulatorStarts(extConfig.emulatorArgs, extConfig.waitingTimeout)
     }
 }

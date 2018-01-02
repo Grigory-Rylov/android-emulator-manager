@@ -1,10 +1,6 @@
 package com.github.grishberg.androidemulatormanager.avdmanager;
 
-import com.github.grishberg.androidemulatormanager.BaseTestCaseWithLogger;
-import com.github.grishberg.androidemulatormanager.DisplayMode;
-import com.github.grishberg.androidemulatormanager.EmulatorConfig;
-import com.github.grishberg.androidemulatormanager.PreferenceContext;
-import com.github.grishberg.androidemulatormanager.utils.SysUtils;
+import com.github.grishberg.androidemulatormanager.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,9 +15,9 @@ public class MacAvdManagerTest extends BaseTestCaseWithLogger {
 
     @Before
     public void setUp() throws Exception {
-        PreferenceContext context = new PreferenceContext();
-        HardwareManager hardwareManager = new HardwareManager(SysUtils.getAvdHomeDir(),
-                getLogger());
+        EmulatorManagerConfig extensionObject = new EmulatorManagerConfig();
+        PreferenceContext context = new PreferenceContext(extensionObject, getLogger());
+        HardwareManager hardwareManager = new HardwareManager(context, getLogger());
         SdkManager sdkManager = new SdkManager(context, "/tools/bin/sdkmanager", getLogger());
         avdManagerWrapper = new UnixAvdManagerWrapper(context, hardwareManager, sdkManager, getLogger());
     }

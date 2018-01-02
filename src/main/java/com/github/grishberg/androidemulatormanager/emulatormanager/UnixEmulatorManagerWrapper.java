@@ -8,6 +8,6 @@ import org.gradle.api.logging.Logger;
  */
 public class UnixEmulatorManagerWrapper extends EmulatorManagerWrapper {
     public UnixEmulatorManagerWrapper(PreferenceContext context, Logger logger) {
-        super(context.getAndroidSdkPath() + "/emulator/emulator", logger);
+        super(context, "emulator/emulator", logger);
     }
 }

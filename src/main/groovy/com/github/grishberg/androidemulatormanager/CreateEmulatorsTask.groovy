@@ -17,6 +17,8 @@ class CreateEmulatorsTask extends DefaultTask {
         if (extConfig.emulatorArgs == null) {
             throw new GradleException("Need to setup EmulatorManagerConfig extension object")
         }
+        emulatorManager.initIfNeeded()
+
         emulatorManager.createEmulators(extConfig.emulatorArgs)
     }
 }

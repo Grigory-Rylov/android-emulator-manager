@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 public class AndroidEmulatorManager {
     private static final int TIMEOUT_FOR_CYCLE = 5;
     private static final String STOPPED = "stopped";
-    private static final String PROPERTY_BOOTANIM = "init.svc.bootanim";
+    private static final String PROPERTY_BOOTANIM = "initIfNeeded.svc.bootanim";
     public static final int TRIES_COUNT = 3;
     private final EmulatorManagerWrapper emulatorManager;
     private final AdbFacade adbFacade;
@@ -39,6 +39,10 @@ public class AndroidEmulatorManager {
         emulatorManager = emulatorManagerFabric.createEmulatorManagerForOs(context);
         avdManager = avdManagerFabric.createAvdManagerForOs();
         this.adbFacade = adbFacade;
+    }
+
+    public void initIfNeeded() throws InterruptedException {
+        adbFacade.initIfNeeded();
     }
 
     /**
@@ -131,7 +135,7 @@ public class AndroidEmulatorManager {
                 logger.error("WaitForEmulatorStarts: timeout exception", e);
                 stopRunningEmulatorsForcibly();
                 adbFacade.terminate();
-                adbFacade.init();
+                adbFacade.initIfNeeded();
                 startEmulators(args);
             }
         }
@@ -147,7 +151,7 @@ public class AndroidEmulatorManager {
             for (EmulatorConfig arg : args) {
                 IDevice device = findOnlineDeviceForConfig(arg);
                 if (device != null) {
-                    logger.info("found online emulator: {}", arg.getName());
+                    logger.info("Found online emulator: {}", arg.getName());
                     onlineDevices.add(arg.getName());
                     updateAndroidEmulatorWithDevice(arg, device);
                 }
@@ -162,7 +166,7 @@ public class AndroidEmulatorManager {
     }
 
     private void stopRunningEmulatorsForcibly() {
-        logger.info("stopRunningEmulatorsForcibly");
+        logger.info("StopRunningEmulatorsForcibly");
 
         for (final Map.Entry<EmulatorConfig, AndroidEmulator> entry : startedEmulators.entrySet()) {
             entry.getValue().stopEmulatorForcibly();
@@ -181,10 +185,12 @@ public class AndroidEmulatorManager {
     private IDevice findOnlineDeviceForConfig(EmulatorConfig arg) throws InterruptedException {
         IDevice[] devices = adbFacade.getDevices();
         for (IDevice device : devices) {
-            logger.info("findOnlineDeviceForConfig: current device = {}, arg = {}",
-                    device.getName(), arg.getName());
-            if (arg.getName().equals(device.getAvdName()) && device.isOnline()
-                    && isDeviceReady(device)) {
+            boolean online = device.isOnline();
+            boolean deviceReady = isDeviceReady(device);
+            logger.info("FindOnlineDeviceForConfig: current device = {}, arg = {}, isOnline = {}, isReady = {}",
+                    device.getName(), arg.getName(), online, deviceReady);
+            if (arg.getName().equals(device.getAvdName()) && online
+                    && deviceReady) {
                 return device;
             }
         }
@@ -193,7 +199,9 @@ public class AndroidEmulatorManager {
 
     private boolean isDeviceReady(IDevice device) throws InterruptedException {
         try {
-            return STOPPED.equals(device.getSystemProperty(PROPERTY_BOOTANIM).get());
+            String propertyBootAnim = device.getSystemProperty(PROPERTY_BOOTANIM).get();
+            logger.info("Property boot anim = {}", propertyBootAnim);
+            return STOPPED.equals(propertyBootAnim);
         } catch (ExecutionException e) {
             logger.error("GetSystemProperty exception:", e);
             return false;

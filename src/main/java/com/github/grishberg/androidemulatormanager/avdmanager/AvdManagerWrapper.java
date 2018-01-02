@@ -5,6 +5,7 @@ import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.gradle.api.logging.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PushbackInputStream;
@@ -18,21 +19,22 @@ import static com.github.grishberg.androidemulatormanager.utils.SysUtils.getAvdS
  * Wrapper for avdmanager.
  */
 public abstract class AvdManagerWrapper {
-    private final String pathToAvdManager;
+    private String absPathToAvdManager;
+    private String relativePathToAvdManager;
     private final HardwareManager hardwareManager;
     private final PreferenceContext context;
     private SdkManager sdkManager;
     private final Logger logger;
 
     AvdManagerWrapper(PreferenceContext context,
-                      String pathToAvdManager,
+                      String relativePathToAvdManager,
                       HardwareManager hardwareManager,
                       SdkManager sdkManager,
                       Logger logger) {
+        this.relativePathToAvdManager = relativePathToAvdManager;
         this.hardwareManager = hardwareManager;
         this.sdkManager = sdkManager;
         this.logger = logger;
-        this.pathToAvdManager = context.getAndroidSdkPath() + pathToAvdManager;
         this.context = context;
     }
 
@@ -121,7 +123,7 @@ public abstract class AvdManagerWrapper {
     private List<String> buildCreateEmulatorCommand(EmulatorConfig arg,
                                                     EmulatorImageType emulatorImageType) {
         ArrayList<String> params = new ArrayList<>();
-        params.add(pathToAvdManager);
+        params.add(absPathToAvdManager);
         params.add("-s");
         params.add("create");
         params.add("avd");
@@ -148,11 +150,19 @@ public abstract class AvdManagerWrapper {
 
     private String[] buildDeleteAvdCommand(EmulatorConfig arg) {
         ArrayList<String> params = new ArrayList<>();
-        params.add(pathToAvdManager);
+        params.add(getAbsPathToAvdManager());
         params.add("delete");
         params.add("avd");
         params.add("-n");
         params.add(arg.getName());
         return params.toArray(new String[params.size()]);
+    }
+
+    private String getAbsPathToAvdManager() {
+        if (absPathToAvdManager == null) {
+            absPathToAvdManager = new File(context.getAvdHomeDir(), relativePathToAvdManager)
+                    .getAbsolutePath();
+        }
+        return absPathToAvdManager;
     }
 }

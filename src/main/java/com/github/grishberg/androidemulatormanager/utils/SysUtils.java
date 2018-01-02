@@ -17,6 +17,7 @@ public class SysUtils {
 
     private SysUtils() {/*not needed*/}
 
+    @Deprecated
     public static File getAvdHomeDir() {
         String homeDir = System.getenv("HOME");
         return new File(homeDir, ".android/avd");

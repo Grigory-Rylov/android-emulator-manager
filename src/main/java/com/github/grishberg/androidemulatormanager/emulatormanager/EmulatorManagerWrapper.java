@@ -2,9 +2,11 @@ package com.github.grishberg.androidemulatormanager.emulatormanager;
 
 import com.github.grishberg.androidemulatormanager.AndroidEmulator;
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
+import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.gradle.api.logging.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +15,13 @@ import java.util.List;
  * Wrapper for emulatormanager..
  */
 public abstract class EmulatorManagerWrapper {
+    private final PreferenceContext context;
     private final Logger logger;
     private final String emulatorManagerPath;
+    private String absEmulatorManagerPath;
 
-    EmulatorManagerWrapper(String emulatorManagerPath, Logger logger) {
+    EmulatorManagerWrapper(PreferenceContext context, String emulatorManagerPath, Logger logger) {
+        this.context = context;
         this.logger = logger;
         this.emulatorManagerPath = emulatorManagerPath;
     }
@@ -36,7 +41,7 @@ public abstract class EmulatorManagerWrapper {
 
     private String[] buildStartEmulatorCommand(EmulatorConfig arg) {
         ArrayList<String> params = new ArrayList<>();
-        params.add(emulatorManagerPath);
+        params.add(getAbsEmulatorManagerPath());
         params.add("-avd");
         params.add(arg.getName());
         return params.toArray(new String[params.size()]);
@@ -50,5 +55,13 @@ public abstract class EmulatorManagerWrapper {
             throw new EmulatorManagerException("exception while executing emulator manager", e);
         }
         return result.toArray(new String[result.size()]);
+    }
+
+    private String getAbsEmulatorManagerPath() {
+        if (absEmulatorManagerPath == null) {
+            absEmulatorManagerPath = new File(context.getAndroidSdkPath(), emulatorManagerPath)
+                    .getAbsolutePath();
+        }
+        return absEmulatorManagerPath;
     }
 }

@@ -1,25 +1,26 @@
 package com.github.grishberg.androidemulatormanager.avdmanager;
 
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
+import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import org.gradle.api.logging.Logger;
 
 import java.io.*;
 import java.util.*;
 
 /**
- * Creates config init.
+ * Creates config initIfNeeded.
  */
 public class HardwareManager {
+    private PreferenceContext context;
     private final Logger logger;
-    private final File avdHomeDir;
 
-    public HardwareManager(File avdHomeDir, Logger logger) {
+    public HardwareManager(PreferenceContext context, Logger logger) {
+        this.context = context;
         this.logger = logger;
-        this.avdHomeDir = avdHomeDir;
     }
 
     void writeHardwareFile(EmulatorConfig config) {
-        String configName = new File(avdHomeDir,
+        String configName = new File(context.getAvdHomeDir(),
                 String.format(Locale.US, "%s.avd/config.ini", config.getName()))
                 .getAbsolutePath();
         HashMap<String, String> defaultParams = readDefaultConfig(configName);

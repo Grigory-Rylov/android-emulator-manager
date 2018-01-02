@@ -11,7 +11,8 @@ import org.junit.Test;
 public class EmulatorManagerWrapperIntegrationTest extends BaseTestCaseWithLogger {
     @Test
     public void returnEmulatorsList() throws Exception {
-        PreferenceContext context = new PreferenceContext();
+        EmulatorManagerConfig config = new EmulatorManagerConfig();
+        PreferenceContext context = new PreferenceContext(config, getLogger());
         EmulatorManagerWrapper manager = new UnixEmulatorManagerWrapper(context, getLogger());
         String[] devices = manager.getAvdList();
         Assert.assertTrue(devices.length > 0);

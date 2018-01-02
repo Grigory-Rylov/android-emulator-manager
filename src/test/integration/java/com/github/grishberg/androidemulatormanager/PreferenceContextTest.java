@@ -6,10 +6,11 @@ import org.junit.Test;
 /**
  * Check preferences context.
  */
-public class PreferenceContextTest {
+public class PreferenceContextTest extends BaseTestCaseWithLogger {
     @Test
     public void checkAndroidHome() {
-        PreferenceContext context = new PreferenceContext();
+        EmulatorManagerConfig config = new EmulatorManagerConfig();
+        PreferenceContext context = new PreferenceContext(config, getLogger());
         Assert.assertNotNull(context.getAndroidSdkPath());
     }
 }

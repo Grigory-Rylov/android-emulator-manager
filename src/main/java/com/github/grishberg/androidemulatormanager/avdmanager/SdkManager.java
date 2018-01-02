@@ -4,6 +4,7 @@ import com.github.grishberg.androidemulatormanager.EmulatorConfig;
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import org.gradle.api.logging.Logger;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -15,16 +16,17 @@ import static com.github.grishberg.androidemulatormanager.utils.SysUtils.getAvdS
  * Wrapper for sdkmanager
  */
 public class SdkManager {
+    private final String relativePathToSdkManager;
     private PreferenceContext context;
     private final Logger logger;
     private String pathToSdkManager;
 
     public SdkManager(PreferenceContext context,
-                      String pathToSdkManager,
+                      String relativePathToSdkManager,
                       Logger logger) {
         this.context = context;
         this.logger = logger;
-        this.pathToSdkManager = context.getAndroidSdkPath() + pathToSdkManager;
+        this.relativePathToSdkManager = relativePathToSdkManager;
     }
 
     /**
@@ -60,12 +62,23 @@ public class SdkManager {
     private String[] buildInstallAvdCommand(EmulatorConfig emulatorConfig,
                                             EmulatorImageType emulatorImageType) {
         ArrayList<String> params = new ArrayList<>();
-        params.add(pathToSdkManager);
+        params.add(getPathToSdkManager());
         params.add("--install");
         //TODO: check EmulatorConfig.withPlayStore flag
         params.add(String.format(Locale.US, "system-images;android-%d;%s;x86",
                 emulatorConfig.getApiLevel(),
                 emulatorImageType.getImageName()));
         return params.toArray(new String[params.size()]);
+    }
+
+    /**
+     * PreferenceContext.getAndroidSdkPath() may not be initialized when plugin applying.
+     */
+    private String getPathToSdkManager() {
+        if (pathToSdkManager == null) {
+            this.pathToSdkManager = new File(context.getAndroidSdkPath(), relativePathToSdkManager)
+                    .getAbsolutePath();
+        }
+        return pathToSdkManager;
     }
 }

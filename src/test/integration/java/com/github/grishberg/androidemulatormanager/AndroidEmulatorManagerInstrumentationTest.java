@@ -4,7 +4,6 @@ import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric;
 import com.github.grishberg.androidemulatormanager.avdmanager.HardwareManager;
 import com.github.grishberg.androidemulatormanager.avdmanager.SdkManager;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
-import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,15 +21,19 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
 
     @Before
     public void setUp() throws Exception {
-        PreferenceContext context = new PreferenceContext();
+        EmulatorManagerConfig config = new EmulatorManagerConfig();
+        PreferenceContext context = new PreferenceContext(config, getLogger());
         adbFacade = new AdbFacade(context, getLogger());
-        adbFacade.init();
-        HardwareManager hardwareManager = new HardwareManager(SysUtils.getAvdHomeDir(), getLogger());
-        SdkManager sdkManager = new SdkManager(context, "/tools/bin/sdkmanager", getLogger());
+        HardwareManager hardwareManager = new HardwareManager(context, getLogger());
+        SdkManager sdkManager = new SdkManager(context, "/tools/bin/sdkmanager",
+                getLogger());
+
         emulatorManager = new AndroidEmulatorManager(context, adbFacade,
                 new EmulatorManagerFabric(getLogger()),
                 new AvdManagerFabric(context, hardwareManager, sdkManager, getLogger()),
                 getLogger());
+
+        emulatorManager.initIfNeeded();
     }
 
     @After

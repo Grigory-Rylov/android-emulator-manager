@@ -2,6 +2,8 @@ package com.github.grishberg.androidemulatormanager.avdmanager;
 
 import com.github.grishberg.androidemulatormanager.DisplayMode;
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
+import com.github.grishberg.androidemulatormanager.EmulatorManagerConfig;
+import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import org.gradle.api.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -26,7 +28,9 @@ public class HardwareManagerTest {
     @Before
     public void setUp() throws IOException {
         createIniFile();
-        manager = new HardwareManager(new File("for_test"), logger);
+        EmulatorManagerConfig config = new EmulatorManagerConfig();
+        PreferenceContext context = new PreferenceContext(config, logger);
+        manager = new HardwareManager(context, logger);
     }
 
     @After
