@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 public class AndroidEmulatorManager {
     private static final int TIMEOUT_FOR_CYCLE = 5;
     private static final String STOPPED = "stopped";
-    private static final String PROPERTY_BOOTANIM = "initIfNeeded.svc.bootanim";
+    private static final String PROPERTY_BOOTANIM = "init.svc.bootanim";
     public static final int TRIES_COUNT = 3;
     private final EmulatorManagerWrapper emulatorManager;
     private final AdbFacade adbFacade;

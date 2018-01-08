@@ -10,6 +10,8 @@ import java.io.File;
  * Facade for adb.
  */
 public class AdbFacade {
+    private static final int ADB_TIMEOUT = 10;
+    private static final int ONE_SECOND = 1000;
     private final PreferenceContext preferenceContext;
     private final Logger logger;
     private AndroidDebugBridge adb;
@@ -43,6 +45,11 @@ public class AdbFacade {
     }
 
     private void waitForAdb() throws InterruptedException {
-        Thread.sleep(1000);
+        for (int counter = 0; counter < ADB_TIMEOUT; counter++) {
+            if (adb.isConnected()) {
+                break;
+            }
+            Thread.sleep(ONE_SECOND);
+        }
     }
 }

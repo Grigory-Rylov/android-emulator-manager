@@ -17,6 +17,7 @@ class EmulatorManagerPlugin implements Plugin<Project> {
 
         PreferenceContext context = new PreferenceContext(config, project.logger)
         final AdbFacade adbFacade = new AdbFacade(context, project.logger)
+
         EmulatorManagerFabric emulatorManagerFabric = new EmulatorManagerFabric(project.logger)
 
         HardwareManager hardwareManager = new HardwareManager(context, project.logger)
