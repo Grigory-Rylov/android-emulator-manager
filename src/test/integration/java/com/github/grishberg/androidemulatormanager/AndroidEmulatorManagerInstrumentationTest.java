@@ -4,6 +4,7 @@ import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric;
 import com.github.grishberg.androidemulatormanager.avdmanager.HardwareManager;
 import com.github.grishberg.androidemulatormanager.avdmanager.SdkManager;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
+import com.github.grishberg.androidemulatormanager.ext.EmulatorManagerConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

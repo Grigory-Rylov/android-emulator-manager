@@ -1,6 +1,7 @@
 package com.github.grishberg.androidemulatormanager.avdmanager;
 
 import com.github.grishberg.androidemulatormanager.*;
+import com.github.grishberg.androidemulatormanager.ext.EmulatorManagerConfig;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

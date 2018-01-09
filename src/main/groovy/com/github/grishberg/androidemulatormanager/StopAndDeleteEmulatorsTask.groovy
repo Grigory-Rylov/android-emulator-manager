@@ -1,5 +1,6 @@
 package com.github.grishberg.androidemulatormanager
 
+import com.github.grishberg.androidemulatormanager.ext.EmulatorManagerConfig
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction

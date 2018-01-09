@@ -1,5 +1,6 @@
 package com.github.grishberg.androidemulatormanager;
 
+import com.github.grishberg.androidemulatormanager.ext.EmulatorManagerConfig;
 import org.gradle.api.logging.Logger;
 
 import java.io.File;
