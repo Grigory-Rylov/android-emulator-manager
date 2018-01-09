@@ -188,7 +188,7 @@ public class AndroidEmulatorManager {
             boolean online = device.isOnline();
             boolean deviceReady = isDeviceReady(device);
             logger.info("FindOnlineDeviceForConfig: current device = {}, arg = {}, isOnline = {}, isReady = {}",
-                    device.getName(), arg.getName(), online, deviceReady);
+                    device.getAvdName(), arg.getName(), online, deviceReady);
             if (arg.getName().equals(device.getAvdName()) && online
                     && deviceReady) {
                 return device;
