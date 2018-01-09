@@ -8,7 +8,7 @@ import java.io.File;
 /**
  * Provides path to android sdk components.
  */
-public final class PreferenceContext {
+public class PreferenceContext {
     private final Logger logger;
     private final EmulatorManagerConfig config;
     private String androidSdkPath;
