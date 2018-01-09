@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * Created by grishberg on 18.11.17.
@@ -27,6 +28,7 @@ public class HardwareManagerTest {
 
     @Before
     public void setUp() throws IOException {
+        initMocks(this);
         createIniFile();
         EmulatorManagerConfig config = new EmulatorManagerConfig();
         PreferenceContext context = new PreferenceContext(config, logger);
