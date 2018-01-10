@@ -17,12 +17,6 @@ public class SysUtils {
 
     private SysUtils() {/*not needed*/}
 
-    @Deprecated
-    public static File getAvdHomeDir() {
-        String homeDir = System.getenv("HOME");
-        return new File(homeDir, ".android/avd");
-    }
-
     public static String readStringFromInputString(InputStream is) {
         String line;
         BufferedReader stdError = new BufferedReader(
@@ -39,12 +33,12 @@ public class SysUtils {
         return errorSb.toString();
     }
 
-    public static File getAvdConfig(String name) {
-        return new File(getAvdHomeDir(), name + ".ini");
+    public static File getAvdConfig(PreferenceContext context, String name) {
+        return new File(context.getAvdHomeDir(), name + ".ini");
     }
 
     public static File getAvdSystemImage(PreferenceContext context,
-                                   int apiLevel, String imageType) {
+                                         int apiLevel, String imageType) {
         return new File(context.getAndroidSdkPath(),
                 String.format(Locale.US, "system-images/android-%d/%s/x86/system.img",
                         apiLevel, imageType));

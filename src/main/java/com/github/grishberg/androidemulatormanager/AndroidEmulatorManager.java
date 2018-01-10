@@ -28,6 +28,7 @@ public class AndroidEmulatorManager {
     private final AdbFacade adbFacade;
     private final AvdManagerWrapper avdManager;
     private final Map<EmulatorConfig, AndroidEmulator> startedEmulators = new HashMap<>();
+    private PreferenceContext context;
     private final Logger logger;
 
     public AndroidEmulatorManager(PreferenceContext context,
@@ -35,6 +36,7 @@ public class AndroidEmulatorManager {
                                   EmulatorManagerFabric emulatorManagerFabric,
                                   AvdManagerFabric avdManagerFabric,
                                   Logger logger) {
+        this.context = context;
         this.logger = logger;
         emulatorManager = emulatorManagerFabric.createEmulatorManagerForOs(context);
         avdManager = avdManagerFabric.createAvdManagerForOs();
@@ -55,7 +57,7 @@ public class AndroidEmulatorManager {
     public void createEmulators(EmulatorConfig[] args) throws InterruptedException,
             AvdManagerException {
         for (EmulatorConfig arg : args) {
-            if (!SysUtils.getAvdConfig(arg.getName()).exists()) {
+            if (!SysUtils.getAvdConfig(context, arg.getName()).exists()) {
                 logger.info("createEmulators {}", arg.getName());
                 avdManager.createAvd(arg);
             } else {

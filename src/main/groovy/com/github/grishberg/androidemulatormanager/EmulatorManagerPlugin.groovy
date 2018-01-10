@@ -14,6 +14,7 @@ class EmulatorManagerPlugin implements Plugin<Project> {
 
     @Override
     void apply(Project project) {
+        project.logger.info("EmulatorManagerPlugin: apply")
         EmulatorManagerConfig config = project.extensions.create(CONFIG_NAME, EmulatorManagerConfig)
 
         PreferenceContext context = new PreferenceContext(config, project.logger)

@@ -83,7 +83,7 @@ public abstract class AvdManagerWrapper {
             // Wait for happy ending
             if (process.waitFor() == 0) {
                 // Do a sanity check to ensure the AVD was really created
-                isAvdCreated = SysUtils.getAvdConfig(arg.getName()).exists();
+                isAvdCreated = SysUtils.getAvdConfig(context, arg.getName()).exists();
             }
         } catch (IOException e) {
             // read any errors from the attempted command
@@ -123,7 +123,7 @@ public abstract class AvdManagerWrapper {
     private List<String> buildCreateEmulatorCommand(EmulatorConfig arg,
                                                     EmulatorImageType emulatorImageType) {
         ArrayList<String> params = new ArrayList<>();
-        params.add(absPathToAvdManager);
+        params.add(getAbsPathToAvdManager());
         params.add("-s");
         params.add("create");
         params.add("avd");
@@ -160,7 +160,7 @@ public abstract class AvdManagerWrapper {
 
     private String getAbsPathToAvdManager() {
         if (absPathToAvdManager == null) {
-            absPathToAvdManager = new File(context.getAvdHomeDir(), relativePathToAvdManager)
+            absPathToAvdManager = new File(context.getAndroidSdkPath(), relativePathToAvdManager)
                     .getAbsolutePath();
         }
         return absPathToAvdManager;
