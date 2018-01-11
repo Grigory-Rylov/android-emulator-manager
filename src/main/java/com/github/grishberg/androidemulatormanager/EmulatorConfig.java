@@ -5,21 +5,29 @@ package com.github.grishberg.androidemulatormanager;
  */
 public class EmulatorConfig {
     private String name;
-    private DisplayMode displayMode;
     private int apiLevel;
     private boolean withPlayStore;
     private int diskSize = 800;
     private int sdCardSize = 100;
+    private int displayWidth;
+    private int displayHeight;
+    private int displayDensity;
 
     public static EmulatorConfig argsFromJson(String argsAsJson) {
         //TODO: extract parameters from json
-        EmulatorConfig args = new EmulatorConfig("phone", DisplayMode.PHONE_HDPI, 26);
+        EmulatorConfig args = new EmulatorConfig("phone", DisplayMode.getPhoneHdpi(), 26);
         return args;
+    }
+
+    public EmulatorConfig(String name) {
+        this.name = name;
     }
 
     public EmulatorConfig(String name, DisplayMode displayMode, int apiLevel) {
         this.name = name;
-        this.displayMode = displayMode;
+        displayWidth = displayMode.getWidth();
+        displayHeight = displayMode.getHeight();
+        displayDensity = displayMode.getDensity();
         this.apiLevel = apiLevel;
     }
 
@@ -28,7 +36,7 @@ public class EmulatorConfig {
     }
 
     public DisplayMode getDisplayMode() {
-        return displayMode;
+        return new DisplayMode(displayWidth, displayHeight, displayDensity);
     }
 
     public int getApiLevel() {
@@ -57,5 +65,29 @@ public class EmulatorConfig {
 
     public void setDiskSize(int diskSize) {
         this.diskSize = diskSize;
+    }
+
+    public int getDisplayWidth() {
+        return displayWidth;
+    }
+
+    public void setDisplayWidth(int displayWidth) {
+        this.displayWidth = displayWidth;
+    }
+
+    public int getDisplayHeight() {
+        return displayHeight;
+    }
+
+    public void setDisplayHeight(int displayHeight) {
+        this.displayHeight = displayHeight;
+    }
+
+    public int getDisplayDensity() {
+        return displayDensity;
+    }
+
+    public void setDisplayDensity(int displayDensity) {
+        this.displayDensity = displayDensity;
     }
 }

@@ -48,7 +48,7 @@ public class AndroidEmulatorManagerTest {
     @Test
     public void testCreateEmulators() throws AvdManagerException, InterruptedException {
         EmulatorConfig emulatorConfig = new EmulatorConfig("test",
-                DisplayMode.PHONE_HDPI, 26);
+                DisplayMode.getPhoneHdpi(), 26);
         emulatorManager.createEmulators(Collections.singletonList(emulatorConfig));
 
         verify(avdManager).createAvd(emulatorConfig);

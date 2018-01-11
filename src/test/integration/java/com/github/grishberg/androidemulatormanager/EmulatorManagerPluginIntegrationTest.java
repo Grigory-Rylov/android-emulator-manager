@@ -11,9 +11,9 @@ import org.junit.Test;
 public class EmulatorManagerPluginIntegrationTest extends BaseTestCaseWithLogger {
     private Project project;
     private EmulatorConfig argPhone = new EmulatorConfig("test_phone",
-            DisplayMode.PHONE_HDPI, 26);
+            DisplayMode.getPhoneHdpi(), 26);
     private EmulatorConfig argTablet = new EmulatorConfig("test_tablet",
-            DisplayMode.TABLET_XHDPI, 26);
+            DisplayMode.getTabletXhdpi(), 26);
 
     public EmulatorManagerPluginIntegrationTest() {
         super();
@@ -40,13 +40,13 @@ public class EmulatorManagerPluginIntegrationTest extends BaseTestCaseWithLogger
                 .getByName("startEmulators");
 
         WaitForEmulatorsTask waitForEmulatorsTask = (WaitForEmulatorsTask) project.getTasks()
-                .getByName("waitForEmulators");
+                .getByName(WaitForEmulatorsTask.NAME);
 
         StopEmulatorsTask stopEmulatorsTask = (StopEmulatorsTask) project.getTasks()
-                .getByName("stopRunningEmulators");
+                .getByName(StopEmulatorsTask.NAME);
 
         DeleteEmulatorsTask deleteTasks = (DeleteEmulatorsTask) project.getTasks()
-                .getByName("deleteEmulators");
+                .getByName(DeleteEmulatorsTask.NAME);
 
         createTask.runTask();
         startEmulatorsTask.runTask();

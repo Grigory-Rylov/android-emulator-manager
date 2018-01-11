@@ -23,6 +23,6 @@ class WaitForEmulatorsTask extends DefaultTask {
         }
         emulatorManager.initIfNeeded()
 
-        emulatorManager.waitForEmulatorStarts(emulatorConfigs.size(), extConfig.waitingTimeout)
+        emulatorManager.waitForEmulatorStarts(emulatorConfigs.asList(), extConfig.waitingTimeout)
     }
 }

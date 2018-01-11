@@ -19,9 +19,9 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
     private AndroidEmulatorManager emulatorManager;
     private AdbFacade adbFacade;
     private EmulatorConfig argPhone = new EmulatorConfig("test_phone",
-            DisplayMode.PHONE_HDPI, 26);
+            DisplayMode.getPhoneHdpi(), 26);
     private EmulatorConfig argTablet = new EmulatorConfig("test_tablet",
-            DisplayMode.TABLET_XHDPI, 26);
+            DisplayMode.getTabletXhdpi(), 26);
 
     @Before
     public void setUp() throws Exception {
