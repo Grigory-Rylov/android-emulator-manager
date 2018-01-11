@@ -5,17 +5,22 @@ import com.github.grishberg.androidemulatormanager.avdmanager.HardwareManager
 import com.github.grishberg.androidemulatormanager.avdmanager.SdkManager
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric
 import com.github.grishberg.androidemulatormanager.ext.EmulatorManagerConfig
+import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
 class EmulatorManagerPlugin implements Plugin<Project> {
     public static final String CONFIG_NAME = 'emulatorManagerConfig'
+    public static final String EMULATOR_CONFIGS = 'emulatorConfigs'
     private AndroidEmulatorManager androidEmulatorManager
 
     @Override
     void apply(Project project) {
         project.logger.info("EmulatorManagerPlugin: apply")
         EmulatorManagerConfig config = project.extensions.create(CONFIG_NAME, EmulatorManagerConfig)
+
+        NamedDomainObjectContainer<EmulatorConfig> emulatorConfigs = project.container(EmulatorConfig)
+        project.extensions.add(EMULATOR_CONFIGS, emulatorConfigs)
 
         PreferenceContext context = new PreferenceContext(config, project.logger)
         final AdbFacade adbFacade = new AdbFacade(context, project.logger)
@@ -34,36 +39,30 @@ class EmulatorManagerPlugin implements Plugin<Project> {
 
         project.tasks.create(CreateAndRunEmulatorsTask.NAME, CreateAndRunEmulatorsTask) {
             emulatorManager = androidEmulatorManager
-            extConfig = config
         }
 
         project.tasks.create(StopAndDeleteEmulatorsTask.NAME, StopAndDeleteEmulatorsTask) {
             emulatorManager = androidEmulatorManager
-            extConfig = config
         }
 
         project.tasks.create(CreateEmulatorsTask.NAME, CreateEmulatorsTask) {
             emulatorManager = androidEmulatorManager
-            extConfig = config
         }
 
         project.tasks.create(StartEmulatorsTask.NAME, StartEmulatorsTask) {
             emulatorManager = androidEmulatorManager
-            extConfig = config
         }
 
         project.tasks.create(WaitForEmulatorsTask.NAME, WaitForEmulatorsTask) {
             emulatorManager = androidEmulatorManager
-            extConfig = config
         }
 
         project.tasks.create(StopEmulatorsTask.NAME, StopEmulatorsTask) {
             emulatorManager = androidEmulatorManager
         }
 
-        project.tasks.create('deleteEmulators', DeleteEmulatorsTask) {
+        project.tasks.create(DeleteEmulatorsTask.NAME, DeleteEmulatorsTask) {
             emulatorManager = androidEmulatorManager
-            extConfig = config
         }
     }
 }

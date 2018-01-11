@@ -1,23 +1,12 @@
 package com.github.grishberg.androidemulatormanager.ext;
 
-import com.github.grishberg.androidemulatormanager.EmulatorConfig;
-
 /**
  * Extension object for configuring Android emulator manager.
  */
 public class EmulatorManagerConfig {
-    EmulatorConfig[] emulatorArgs;
     long waitingTimeout = 60 * 1000;
     String androidSdkPath;
     String userHome;
-
-    public EmulatorConfig[] getEmulatorArgs() {
-        return emulatorArgs;
-    }
-
-    public void setEmulatorArgs(EmulatorConfig[] emulatorArgs) {
-        this.emulatorArgs = emulatorArgs;
-    }
 
     public long getWaitingTimeout() {
         return waitingTimeout;

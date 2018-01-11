@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.util.Collections;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -47,7 +49,7 @@ public class AndroidEmulatorManagerTest {
     public void testCreateEmulators() throws AvdManagerException, InterruptedException {
         EmulatorConfig emulatorConfig = new EmulatorConfig("test",
                 DisplayMode.PHONE_HDPI, 26);
-        emulatorManager.createEmulators(new EmulatorConfig[]{emulatorConfig});
+        emulatorManager.createEmulators(Collections.singletonList(emulatorConfig));
 
         verify(avdManager).createAvd(emulatorConfig);
     }

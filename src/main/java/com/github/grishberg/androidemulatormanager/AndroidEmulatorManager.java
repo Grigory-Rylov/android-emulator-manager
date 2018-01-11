@@ -12,6 +12,7 @@ import org.gradle.api.logging.Logger;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -54,7 +55,7 @@ public class AndroidEmulatorManager {
      * @throws InterruptedException
      * @throws AvdManagerException
      */
-    public void createEmulators(EmulatorConfig[] args) throws InterruptedException,
+    public void createEmulators(List<EmulatorConfig> args) throws InterruptedException,
             AvdManagerException {
         for (EmulatorConfig arg : args) {
             if (!SysUtils.getAvdConfig(context, arg.getName()).exists()) {
@@ -72,7 +73,7 @@ public class AndroidEmulatorManager {
      * @param args array of parameters, contains AVD names.
      * @throws AvdManagerException
      */
-    public void deleteEmulators(EmulatorConfig[] args) throws AvdManagerException {
+    public void deleteEmulators(List<EmulatorConfig> args) throws AvdManagerException {
         for (EmulatorConfig arg : args) {
             logger.info("deleteEmulators {}", arg.getName());
             avdManager.deleteAvd(arg);
@@ -85,7 +86,7 @@ public class AndroidEmulatorManager {
      * @param args args that emulators name.
      * @throws EmulatorManagerException
      */
-    public AndroidEmulator[] startEmulators(EmulatorConfig[] args) throws EmulatorManagerException {
+    public AndroidEmulator[] startEmulators(List<EmulatorConfig> args) throws EmulatorManagerException {
         for (EmulatorConfig arg : args) {
             logger.info("startEmulators {}", arg.getName());
             startedEmulators.put(arg, emulatorManager.startEmulator(arg));
@@ -127,7 +128,7 @@ public class AndroidEmulatorManager {
      * @param args    emulator args
      * @param timeout timeout for waiting emulators in milliseconds.
      */
-    public void waitForEmulatorStarts(EmulatorConfig[] args, long timeout)
+    public void waitForEmulatorStarts(List<EmulatorConfig> args, long timeout)
             throws InterruptedException, AvdTimeoutException, EmulatorManagerException {
         for (int i = 0; i < TRIES_COUNT; i++) {
             try {
@@ -143,7 +144,7 @@ public class AndroidEmulatorManager {
         }
     }
 
-    private void checkAllEmulatorsAreOnline(EmulatorConfig[] args, long timeout) throws InterruptedException, AvdTimeoutException {
+    private void checkAllEmulatorsAreOnline(List<EmulatorConfig> args, long timeout) throws InterruptedException, AvdTimeoutException {
         boolean allEmulatorsAreOnline = false;
         HashSet<String> onlineDevices = new HashSet<>();
         long timeoutTime = System.currentTimeMillis() + timeout;
@@ -158,12 +159,12 @@ public class AndroidEmulatorManager {
                     updateAndroidEmulatorWithDevice(arg, device);
                 }
             }
-            allEmulatorsAreOnline = onlineDevices.size() == args.length;
+            allEmulatorsAreOnline = onlineDevices.size() == args.size();
         }
         if (!allEmulatorsAreOnline) {
 
             throw new AvdTimeoutException(String.format("Not all emulators online: %d of %d",
-                    onlineDevices.size(), args.length));
+                    onlineDevices.size(), args.size()));
         }
     }
 

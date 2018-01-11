@@ -1,6 +1,7 @@
 package com.github.grishberg.androidemulatormanager;
 
 import com.github.grishberg.androidemulatormanager.ext.EmulatorManagerConfig;
+import org.gradle.api.NamedDomainObjectCollection;
 import org.gradle.api.Project;
 import org.junit.Test;
 
@@ -20,8 +21,12 @@ public class EmulatorManagerPluginIntegrationTest extends BaseTestCaseWithLogger
         project.getPluginManager().apply(EmulatorManagerPlugin.class);
 
         EmulatorManagerConfig ext = project.getExtensions().findByType(EmulatorManagerConfig.class);
-        EmulatorConfig[] args = {argPhone, argTablet};
-        ext.setEmulatorArgs(args);
+        NamedDomainObjectCollection<EmulatorConfig> emulatorConfigs =
+                (NamedDomainObjectCollection<EmulatorConfig>) project.getExtensions()
+                        .findByName(EmulatorManagerPlugin.EMULATOR_CONFIGS);
+
+        emulatorConfigs.add(argPhone);
+        emulatorConfigs.add(argTablet);
         ext.setWaitingTimeout(60 * 1000);
     }
 

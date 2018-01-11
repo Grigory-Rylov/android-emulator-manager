@@ -9,6 +9,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Starts emulator and waits for online state.
  */
@@ -44,7 +47,7 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
 
     @Test
     public void runEmulator() throws Exception {
-        EmulatorConfig[] args = {argPhone, argTablet};
+        List<EmulatorConfig> args = Arrays.asList(argPhone, argTablet);
         emulatorManager.createEmulators(args);
         emulatorManager.startEmulators(args);
         emulatorManager.waitForEmulatorStarts(args, 60 * 1000);
