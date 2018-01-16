@@ -38,11 +38,15 @@ public abstract class AvdManagerWrapper {
         this.context = context;
     }
 
-    public void createAvd(EmulatorConfig arg) throws InterruptedException, AvdManagerException {
+    public void createAvd(EmulatorConfig arg, boolean shouldInstallSystemImageIfNotExists)
+            throws InterruptedException, AvdManagerException {
         EmulatorImageType emulatorImageType = checkEmulatorImageType(arg);
         if (emulatorImageType == EmulatorImageType.NONE) {
-            logger.lifecycle("Emulator system image not found");
-            emulatorImageType = sdkManager.installEmulatorImage(arg);
+            logger.info("Emulator system image not found");
+            if (shouldInstallSystemImageIfNotExists) {
+                logger.info("Installing system image...");
+                emulatorImageType = sdkManager.installEmulatorImage(arg);
+            }
         }
         boolean isAvdCreated = false;
         Process process;

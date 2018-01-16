@@ -55,12 +55,13 @@ public class AndroidEmulatorManager {
      * @throws InterruptedException
      * @throws AvdManagerException
      */
-    public void createEmulators(List<EmulatorConfig> args) throws InterruptedException,
+    public void createEmulators(List<EmulatorConfig> args, boolean shouldInstallSystemImageIfNotExists)
+            throws InterruptedException,
             AvdManagerException {
         for (EmulatorConfig arg : args) {
             if (!SysUtils.getAvdConfig(context, arg.getName()).exists()) {
                 logger.info("createEmulators {}", arg.getName());
-                avdManager.createAvd(arg);
+                avdManager.createAvd(arg, shouldInstallSystemImageIfNotExists);
             } else {
                 logger.info("createEmulators {}: emulator exists.", arg.getName());
             }

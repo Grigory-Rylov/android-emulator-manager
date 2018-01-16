@@ -63,7 +63,6 @@ public class SdkManager {
                                             EmulatorImageType emulatorImageType) {
         ArrayList<String> params = new ArrayList<>();
         params.add(getPathToSdkManager());
-        params.add("--install");
         //TODO: check EmulatorConfig.withPlayStore flag
         params.add(String.format(Locale.US, "system-images;android-%d;%s;x86",
                 emulatorConfig.getApiLevel(),

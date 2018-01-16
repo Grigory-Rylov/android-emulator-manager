@@ -48,7 +48,7 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
     @Test
     public void runEmulator() throws Exception {
         List<EmulatorConfig> args = Arrays.asList(argPhone, argTablet);
-        emulatorManager.createEmulators(args);
+        emulatorManager.createEmulators(args, true);
         emulatorManager.startEmulators(args);
         emulatorManager.waitForEmulatorStarts(args, 60 * 1000);
         emulatorManager.stopRunningEmulators();

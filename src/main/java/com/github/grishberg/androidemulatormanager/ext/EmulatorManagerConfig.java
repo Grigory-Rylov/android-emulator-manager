@@ -7,6 +7,7 @@ public class EmulatorManagerConfig {
     long waitingTimeout = 60 * 1000;
     String androidSdkPath;
     String userHome;
+    boolean installSystemImageIfNotExists;
 
     public long getWaitingTimeout() {
         return waitingTimeout;
@@ -30,5 +31,13 @@ public class EmulatorManagerConfig {
 
     public void setUserHome(String userHome) {
         this.userHome = userHome;
+    }
+
+    public boolean isInstallSystemImageIfNotExists() {
+        return installSystemImageIfNotExists;
+    }
+
+    public void setInstallSystemImageIfNotExists(boolean installSystemImageIfNotExists) {
+        this.installSystemImageIfNotExists = installSystemImageIfNotExists;
     }
 }

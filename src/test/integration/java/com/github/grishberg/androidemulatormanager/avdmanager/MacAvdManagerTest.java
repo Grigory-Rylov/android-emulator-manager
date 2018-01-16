@@ -31,7 +31,7 @@ public class MacAvdManagerTest extends BaseTestCaseWithLogger {
 
     @Test
     public void testCreateEmulator() throws Exception {
-        avdManagerWrapper.createAvd(arg1);
-        avdManagerWrapper.createAvd(arg2);
+        avdManagerWrapper.createAvd(arg1, true);
+        avdManagerWrapper.createAvd(arg2, true);
     }
 }
