@@ -25,7 +25,7 @@ class CreateAndRunEmulatorsTask extends DefaultTask {
         }
         emulatorManager.initIfNeeded()
 
-        emulatorManager.createEmulators(emulatorConfigs.asList())
+        emulatorManager.createEmulators(emulatorConfigs.asList(), extConfig.installSystemImageIfNotExists)
 
         emulatorManager.startEmulators(emulatorConfigs.asList())
 
