@@ -4,6 +4,7 @@ import com.android.ddmlib.IDevice;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerException;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerWrapper;
+import com.github.grishberg.androidemulatormanager.emulator.AndroidEmulator;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerException;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerWrapper;
@@ -133,6 +134,7 @@ public class AndroidEmulatorManager {
             throws InterruptedException, AvdTimeoutException, EmulatorManagerException {
         for (int i = 0; i < TRIES_COUNT; i++) {
             try {
+                logger.info("waitForEmulatorStarts try #{}", i);
                 checkAllEmulatorsAreOnline(args, timeout);
                 return;
             } catch (AvdTimeoutException e) {

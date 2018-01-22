@@ -31,8 +31,10 @@ public class PreferenceContext {
 
     private String getSdkPathFromConfigOrEnv() {
         if (config.getAndroidSdkPath() == null) {
-            logger.info("EmulatorManagerConfig.androidSdkPath is empty, get it from $ANDROID_HOME");
-            return System.getenv("ANDROID_HOME");
+            String androidHome = System.getenv("ANDROID_HOME");
+            logger.info("EmulatorManagerConfig.androidSdkPath is empty, get it from $ANDROID_HOME = {}",
+                    androidHome);
+            return androidHome;
         }
         return config.getAndroidSdkPath();
     }
@@ -49,8 +51,9 @@ public class PreferenceContext {
 
     private String getUserHomePathFromConfigOrEnv() {
         if (config.getUserHome() == null) {
-            logger.info("EmulatorManagerConfig.getUserHome is empty, get it from HOME");
-            return System.getenv("HOME");
+            String home = System.getenv("HOME");
+            logger.info("EmulatorManagerConfig.getUserHome is empty, get it from $HOME = {}", home);
+            return home;
         }
         return config.getAndroidSdkPath();
     }

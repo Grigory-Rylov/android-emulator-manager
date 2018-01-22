@@ -1,8 +1,8 @@
 package com.github.grishberg.androidemulatormanager.emulatormanager;
 
-import com.github.grishberg.androidemulatormanager.AndroidEmulator;
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
+import com.github.grishberg.androidemulatormanager.emulator.AndroidEmulator;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.gradle.api.logging.Logger;
 
@@ -31,8 +31,10 @@ public abstract class EmulatorManagerWrapper {
         Process process;
         try {
             ProcessBuilder pb = new ProcessBuilder(buildStartEmulatorCommand(arg));
+            logger.info("AndroidEmulator: starting emulator {}", arg.getName());
             process = pb.start();
             result = new AndroidEmulator(process, arg, logger);
+            logger.info("AndroidEmulator: emulator {} started", arg.getName());
         } catch (IOException e) {
             throw new EmulatorManagerException("Exception while starting emulator", e);
         }
@@ -44,6 +46,7 @@ public abstract class EmulatorManagerWrapper {
         params.add(getAbsEmulatorManagerPath());
         params.add("-avd");
         params.add(arg.getName());
+        logger.info("buildStartEmulatorCommand: {} {} {}", params.get(0), params.get(1), params.get(2));
         return params.toArray(new String[params.size()]);
     }
 
