@@ -46,6 +46,8 @@ public abstract class EmulatorManagerWrapper {
         params.add(getAbsEmulatorManagerPath());
         params.add("-avd");
         params.add(arg.getName());
+        params.add("-no-window");
+        params.add("-no-audio");
         logger.info("buildStartEmulatorCommand: {} {} {}", params.get(0), params.get(1), params.get(2));
         return params.toArray(new String[params.size()]);
     }
