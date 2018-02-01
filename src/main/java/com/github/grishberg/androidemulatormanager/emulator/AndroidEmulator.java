@@ -15,7 +15,7 @@ public class AndroidEmulator {
     private final EmulatorConfig config;
     private AvdStopper connectedDevice = new EmptyEmulatorStopper();
     private ReadErrorThread readErrorThread;
-    private ReadOutputThread readOuptutThread;
+    private ReadOutputThread readOutputThread;
 
 
     public AndroidEmulator(Process emulatorsProcess,
@@ -33,8 +33,8 @@ public class AndroidEmulator {
         readErrorThread = new ReadErrorThread(config.getName(), emulatorsProcess.getErrorStream(), logger);
         readErrorThread.start();
 
-        readOuptutThread = new ReadOutputThread(config.getName(), emulatorsProcess, logger);
-        readOuptutThread.start();
+        readOutputThread = new ReadOutputThread(config.getName(), emulatorsProcess, logger);
+        readOutputThread.start();
     }
 
     private void stopReadErrorThread() {

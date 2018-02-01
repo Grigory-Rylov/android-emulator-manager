@@ -7,6 +7,7 @@ public class EmulatorManagerConfig {
     long waitingTimeout = 60 * 1000;
     String androidSdkPath;
     String userHome;
+    String emulatorParameters;
     boolean installSystemImageIfNotExists;
 
     public long getWaitingTimeout() {
@@ -39,5 +40,13 @@ public class EmulatorManagerConfig {
 
     public void setInstallSystemImageIfNotExists(boolean installSystemImageIfNotExists) {
         this.installSystemImageIfNotExists = installSystemImageIfNotExists;
+    }
+
+    public String getEmulatorParameters() {
+        return emulatorParameters;
+    }
+
+    public void setEmulatorParameters(String emulatorParameters) {
+        this.emulatorParameters = emulatorParameters;
     }
 }
