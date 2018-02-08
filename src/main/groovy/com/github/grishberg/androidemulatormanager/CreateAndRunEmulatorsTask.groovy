@@ -15,8 +15,6 @@ class CreateAndRunEmulatorsTask extends DefaultTask {
 
     @TaskAction
     void runTask() {
-        initCli()
-
         def emulatorConfigs = project.extensions.getByName(EmulatorManagerPlugin.EMULATOR_CONFIGS) as NamedDomainObjectContainer<EmulatorConfig>
         EmulatorManagerConfig extConfig = project.extensions.getByType(EmulatorManagerConfig)
 
@@ -30,14 +28,5 @@ class CreateAndRunEmulatorsTask extends DefaultTask {
         emulatorManager.startEmulators(emulatorConfigs.asList())
 
         emulatorManager.waitForEmulatorStarts(emulatorConfigs.asList(), extConfig.waitingTimeout)
-    }
-
-    private void initCli() {
-        if (project.hasProperty('api') && extConfig.emulatorArgs == null) {
-            int apiLevel = Integer.parseInt(project.property('api') as String)
-            EmulatorConfig defaultConfig = new EmulatorConfig("phone_avd",
-                    DisplayMode.PHONE_HDPI, apiLevel)
-            extConfig.emulatorArgs = [defaultConfig]
-        }
     }
 }

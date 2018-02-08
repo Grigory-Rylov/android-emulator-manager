@@ -88,6 +88,7 @@ public abstract class AvdManagerWrapper {
             if (process.waitFor() == 0) {
                 // Do a sanity check to ensure the AVD was really created
                 isAvdCreated = SysUtils.getAvdConfig(context, arg.getName()).exists();
+                logger.info("Emulator {} creation status: {}", arg.getName(), isAvdCreated);
             }
         } catch (IOException e) {
             // read any errors from the attempted command

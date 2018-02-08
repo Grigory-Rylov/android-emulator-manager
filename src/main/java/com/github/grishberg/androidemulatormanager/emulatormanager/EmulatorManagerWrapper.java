@@ -47,8 +47,17 @@ public abstract class EmulatorManagerWrapper {
         params.add("-avd");
         params.add(arg.getName());
         params.add("-no-window");
-        params.add("-no-audio");
-        logger.info("buildStartEmulatorCommand: {} {} {}", params.get(0), params.get(1), params.get(2));
+        for (String additionalParameter : context.getAdditionalEmulatorParameters()) {
+            params.add(additionalParameter);
+        }
+        if (logger.isInfoEnabled()) {
+            StringBuilder sb = new StringBuilder("buildStartEmulatorCommand:");
+            for (String param : params) {
+                sb.append(" ");
+                sb.append(param);
+            }
+            logger.info(sb.toString());
+        }
         return params.toArray(new String[params.size()]);
     }
 

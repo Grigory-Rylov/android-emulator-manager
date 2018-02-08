@@ -62,5 +62,9 @@ public class PreferenceContext {
         String homeDir = getUserHomePathFromConfigOrEnv();
         return homeDir + "/.android/avd";
     }
+
+    public String[] getAdditionalEmulatorParameters() {
+        return config.getAdditionalEmulatorParameters().trim().split(" ");
+    }
 }
 
