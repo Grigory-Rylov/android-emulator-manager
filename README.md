@@ -5,7 +5,7 @@
 Gradle plugin for creating, deleting, starting and waiting Android emulators (AVD)
 
 Steps:
-1) add ```classpath 'com.github.grishberg:android-emulator-manager:0.3.11'```
+1) add ```classpath 'com.github.grishberg:android-emulator-manager:0.3.16'```
 to projects build.gradle
 
 2) add ```apply plugin: 'com.github.grishberg.androidemulatormanager'
@@ -32,6 +32,7 @@ emulatorConfigs {
 
 emulatorManagerConfig {
     waitingTimeout = 60 * 3 * 1000
+    additionalEmulatorParameters = "-no-audio"
 }
 /**
  * Setup install apk and test apk
