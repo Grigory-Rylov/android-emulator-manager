@@ -9,6 +9,7 @@ import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManag
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerWrapper;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
+import org.gradle.api.Nullable;
 import org.gradle.api.logging.Logger;
 
 import java.util.HashMap;
@@ -26,11 +27,15 @@ public class AndroidEmulatorManager {
     private static final String STOPPED = "stopped";
     private static final String PROPERTY_BOOTANIM = "init.svc.bootanim";
     public static final int TRIES_COUNT = 3;
-    private final EmulatorManagerWrapper emulatorManager;
+    @Nullable
+    private EmulatorManagerWrapper emulatorManager;
+    @Nullable
+    private AvdManagerWrapper avdManager;
     private final AdbFacade adbFacade;
-    private final AvdManagerWrapper avdManager;
     private final Map<EmulatorConfig, AndroidEmulator> startedEmulators = new HashMap<>();
     private PreferenceContext context;
+    private EmulatorManagerFabric emulatorManagerFabric;
+    private AvdManagerFabric avdManagerFabric;
     private final Logger logger;
 
     public AndroidEmulatorManager(PreferenceContext context,
@@ -39,10 +44,24 @@ public class AndroidEmulatorManager {
                                   AvdManagerFabric avdManagerFabric,
                                   Logger logger) {
         this.context = context;
+        this.emulatorManagerFabric = emulatorManagerFabric;
+        this.avdManagerFabric = avdManagerFabric;
         this.logger = logger;
-        emulatorManager = emulatorManagerFabric.createEmulatorManagerForOs(context);
-        avdManager = avdManagerFabric.createAvdManagerForOs();
         this.adbFacade = adbFacade;
+    }
+
+    private EmulatorManagerWrapper getEmulatorManager() {
+        if (emulatorManager == null) {
+            emulatorManager = emulatorManagerFabric.createEmulatorManagerForOs(context);
+        }
+        return emulatorManager;
+    }
+
+    private AvdManagerWrapper getAvdManager() {
+        if (avdManager == null) {
+            avdManager = avdManagerFabric.createAvdManagerForOs();
+        }
+        return avdManager;
     }
 
     public void initIfNeeded() throws InterruptedException {
@@ -62,7 +81,7 @@ public class AndroidEmulatorManager {
         for (EmulatorConfig arg : args) {
             if (!SysUtils.getAvdConfig(context, arg.getName()).exists()) {
                 logger.info("createEmulators {}", arg.getName());
-                avdManager.createAvd(arg, shouldInstallSystemImageIfNotExists);
+                getAvdManager().createAvd(arg, shouldInstallSystemImageIfNotExists);
             } else {
                 logger.info("createEmulators {}: emulator exists.", arg.getName());
             }
@@ -78,7 +97,7 @@ public class AndroidEmulatorManager {
     public void deleteEmulators(List<EmulatorConfig> args) throws AvdManagerException {
         for (EmulatorConfig arg : args) {
             logger.info("deleteEmulators {}", arg.getName());
-            avdManager.deleteAvd(arg);
+            getAvdManager().deleteAvd(arg);
         }
     }
 
@@ -91,7 +110,7 @@ public class AndroidEmulatorManager {
     public AndroidEmulator[] startEmulators(List<EmulatorConfig> args) throws EmulatorManagerException {
         for (EmulatorConfig arg : args) {
             logger.info("startEmulators {}", arg.getName());
-            startedEmulators.put(arg, emulatorManager.startEmulator(arg));
+            startedEmulators.put(arg, getEmulatorManager().startEmulator(arg));
         }
 
         return startedEmulators.values().toArray(new AndroidEmulator[startedEmulators.size()]);
