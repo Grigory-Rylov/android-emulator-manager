@@ -3,7 +3,7 @@ package com.github.grishberg.androidemulatormanager
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFactory
 import com.github.grishberg.androidemulatormanager.avdmanager.HardwareManager
 import com.github.grishberg.androidemulatormanager.avdmanager.SdkManager
-import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric
+import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFactory
 import com.github.grishberg.androidemulatormanager.ext.EmulatorManagerConfig
 import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Plugin
@@ -25,7 +25,7 @@ class EmulatorManagerPlugin implements Plugin<Project> {
         PreferenceContext context = new PreferenceContext(config, project.logger)
         final AdbFacade adbFacade = new AdbFacade(context, project.logger)
 
-        EmulatorManagerFabric emulatorManagerFabric = new EmulatorManagerFabric(project.logger)
+        EmulatorManagerFactory emulatorManagerFabric = new EmulatorManagerFactory(project.logger)
 
         HardwareManager hardwareManager = new HardwareManager(context, project.logger)
 

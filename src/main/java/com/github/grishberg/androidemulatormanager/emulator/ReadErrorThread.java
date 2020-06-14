@@ -1,8 +1,8 @@
 package com.github.grishberg.androidemulatormanager.emulator;
 
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.apache.commons.io.IOUtils;
-import org.gradle.api.logging.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class ReadErrorThread extends Thread {
         String errorLine;
         try {
             while (!Thread.interrupted() && (errorLine = stdError.readLine()) != null) {
-                logger.error("Emulator error [{}]: {}",name, errorLine);
+                logger.error("Emulator error [{}]: {}", name, errorLine);
             }
         } catch (IOException e) {
             logger.error("Emulator IOException", e);

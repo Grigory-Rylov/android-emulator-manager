@@ -6,11 +6,11 @@ import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFactory;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerWrapper;
 import com.github.grishberg.androidemulatormanager.emulator.AndroidEmulator;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerException;
-import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
+import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFactory;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerWrapper;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.gradle.api.Nullable;
-import org.gradle.api.logging.Logger;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,13 +34,13 @@ public class AndroidEmulatorManager {
     private final AdbFacade adbFacade;
     private final Map<EmulatorConfig, AndroidEmulator> startedEmulators = new HashMap<>();
     private PreferenceContext context;
-    private EmulatorManagerFabric emulatorManagerFabric;
+    private EmulatorManagerFactory emulatorManagerFabric;
     private AvdManagerFactory avdManagerFabric;
     private final Logger logger;
 
     public AndroidEmulatorManager(PreferenceContext context,
                                   AdbFacade adbFacade,
-                                  EmulatorManagerFabric emulatorManagerFabric,
+                                  EmulatorManagerFactory emulatorManagerFabric,
                                   AvdManagerFactory avdManagerFabric,
                                   Logger logger) {
         this.context = context;

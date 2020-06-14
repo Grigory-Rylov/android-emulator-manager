@@ -4,6 +4,7 @@ plugins {
     id 'groovy'
     id 'jacoco'
     id "com.jfrog.bintray" version "1.7.3"
+    id 'org.jetbrains.kotlin.jvm' version '1.3.61'
 }
 
 group 'com.github.grishberg'
@@ -28,11 +29,18 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
     compile 'com.android.tools.ddms:ddmlib:25.3.0'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    compile group: 'commons-io', name: 'commons-io', version: '2.7'
+
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.2'
     compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
+
+    compile "org.slf4j:slf4j-api:1.7.25"
+    compile "org.slf4j:slf4j-log4j12:1.7.25"
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
 
@@ -54,7 +62,7 @@ configurations {
 }
 
 task integration(type: Test, description: 'Runs the integration tests.', group: 'Verification') {
-    testClassesDir = sourceSets.integration.output.classesDir
+    testClassesDirs = sourceSets.integration.output.classesDirs.filter{}
     classpath = sourceSets.integration.runtimeClasspath
 }
 
@@ -74,6 +82,7 @@ test {
     }
 }
 apply from: 'sonar.gradle'
+apply plugin: 'kotlin'
 
 //need to call  ./gradlew clean build generateRelease
 apply from: 'publish.gradle'
@@ -88,5 +97,15 @@ publishing {
         mavenJava(MavenPublication) {
             from components.java
         }
+    }
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }

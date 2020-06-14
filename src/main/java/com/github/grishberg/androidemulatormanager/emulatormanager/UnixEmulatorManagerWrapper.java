@@ -1,7 +1,7 @@
 package com.github.grishberg.androidemulatormanager.emulatormanager;
 
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
-import org.gradle.api.logging.Logger;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 
 /**
  * Created by grishberg on 12.11.17.

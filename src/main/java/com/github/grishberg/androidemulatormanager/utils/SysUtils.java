@@ -1,7 +1,6 @@
 package com.github.grishberg.androidemulatormanager.utils;
 
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
-import org.gradle.api.logging.Logger;
 
 import java.io.*;
 import java.nio.charset.Charset;

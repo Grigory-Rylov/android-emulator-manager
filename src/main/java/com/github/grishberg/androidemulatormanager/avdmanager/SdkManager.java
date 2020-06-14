@@ -2,14 +2,14 @@ package com.github.grishberg.androidemulatormanager.avdmanager;
 
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
-import org.gradle.api.logging.Logger;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
+import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static com.github.grishberg.androidemulatormanager.utils.SysUtils.executeWithArgsAndReturnOutput;
 import static com.github.grishberg.androidemulatormanager.utils.SysUtils.getAvdSystemImage;
 
 /**
@@ -38,7 +38,7 @@ public class SdkManager {
         EmulatorImageType emulatorImageType = getEmulatorImageTypeForApiLevel(emulatorConfig.getApiLevel());
 
         try {
-            executeWithArgsAndReturnOutput(true, logger,
+            SysUtils.executeWithArgsAndReturnOutput(true, logger,
                     buildInstallAvdCommand(emulatorConfig, emulatorImageType));
         } catch (IOException e) {
             throw new AvdManagerException("exception while installing avd", e);

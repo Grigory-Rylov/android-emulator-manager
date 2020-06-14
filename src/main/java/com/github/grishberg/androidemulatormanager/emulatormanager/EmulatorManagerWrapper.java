@@ -3,8 +3,8 @@ package com.github.grishberg.androidemulatormanager.emulatormanager;
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import com.github.grishberg.androidemulatormanager.emulator.AndroidEmulator;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
-import org.gradle.api.logging.Logger;
 
 import java.io.File;
 import java.io.IOException;

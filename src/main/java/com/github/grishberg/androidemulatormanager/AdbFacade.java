@@ -2,7 +2,7 @@ package com.github.grishberg.androidemulatormanager;
 
 import com.android.ddmlib.AndroidDebugBridge;
 import com.android.ddmlib.IDevice;
-import org.gradle.api.logging.Logger;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 
 import java.io.File;
 

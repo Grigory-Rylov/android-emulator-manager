@@ -1,7 +1,7 @@
 package com.github.grishberg.androidemulatormanager.avdmanager;
 
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
-import org.gradle.api.logging.Logger;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 
 /**
  * For old sdk android tools wrapper.

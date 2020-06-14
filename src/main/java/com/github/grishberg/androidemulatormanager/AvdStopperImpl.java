@@ -3,7 +3,7 @@ package com.github.grishberg.androidemulatormanager;
 import com.android.ddmlib.EmulatorConsole;
 import com.android.ddmlib.IDevice;
 import com.android.ddmlib.MultiLineReceiver;
-import org.gradle.api.logging.Logger;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 
 /**
  * Created by grishberg on 26.12.17.

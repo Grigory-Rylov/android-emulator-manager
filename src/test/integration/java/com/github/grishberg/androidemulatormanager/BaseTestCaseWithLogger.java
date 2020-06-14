@@ -1,8 +1,8 @@
 package com.github.grishberg.androidemulatormanager;
 
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 import org.gradle.api.Project;
 import org.gradle.api.logging.LogLevel;
-import org.gradle.api.logging.Logger;
 import org.gradle.internal.logging.sink.OutputEventRenderer;
 import org.gradle.internal.logging.slf4j.OutputEventListenerBackedLoggerContext;
 import org.gradle.testfixtures.ProjectBuilder;
@@ -27,7 +27,7 @@ public class BaseTestCaseWithLogger {
     }
 
     protected Logger getLogger() {
-        return project.getLogger();
+        return new GradleLogger(project.getLogger());
     }
 
     protected Project getProject() {

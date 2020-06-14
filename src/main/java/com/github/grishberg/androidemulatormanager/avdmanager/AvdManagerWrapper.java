@@ -2,8 +2,8 @@ package com.github.grishberg.androidemulatormanager.avdmanager;
 
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
-import org.gradle.api.logging.Logger;
 
 import java.io.File;
 import java.io.IOException;

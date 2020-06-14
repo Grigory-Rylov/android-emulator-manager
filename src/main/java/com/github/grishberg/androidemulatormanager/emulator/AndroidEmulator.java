@@ -2,7 +2,7 @@ package com.github.grishberg.androidemulatormanager.emulator;
 
 import com.github.grishberg.androidemulatormanager.AvdStopper;
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
-import org.gradle.api.logging.Logger;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 
 import java.util.concurrent.TimeUnit;
 

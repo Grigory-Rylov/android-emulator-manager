@@ -1,8 +1,8 @@
 package com.github.grishberg.androidemulatormanager.emulator;
 
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 import com.github.grishberg.androidemulatormanager.utils.SysUtils;
 import org.apache.commons.io.IOUtils;
-import org.gradle.api.logging.Logger;
 
 import java.io.BufferedReader;
 import java.io.IOException;

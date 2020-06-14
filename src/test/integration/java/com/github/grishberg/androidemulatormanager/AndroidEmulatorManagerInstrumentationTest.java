@@ -3,7 +3,7 @@ package com.github.grishberg.androidemulatormanager;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFactory;
 import com.github.grishberg.androidemulatormanager.avdmanager.HardwareManager;
 import com.github.grishberg.androidemulatormanager.avdmanager.SdkManager;
-import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
+import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFactory;
 import com.github.grishberg.androidemulatormanager.ext.EmulatorManagerConfig;
 import org.junit.After;
 import org.junit.Before;
@@ -33,7 +33,7 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
                 getLogger());
 
         emulatorManager = new AndroidEmulatorManager(context, adbFacade,
-                new EmulatorManagerFabric(getLogger()),
+                new EmulatorManagerFactory(getLogger()),
                 new AvdManagerFactory(context, hardwareManager, sdkManager, getLogger()),
                 getLogger());
 

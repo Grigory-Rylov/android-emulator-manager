@@ -2,15 +2,15 @@ package com.github.grishberg.androidemulatormanager.emulatormanager;
 
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
 import com.github.grishberg.androidemulatormanager.utils.AbsProvider;
-import org.gradle.api.logging.Logger;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 
 /**
  * Creates EmulatorManagerWrapper for current os.
  */
-public class EmulatorManagerFabric extends AbsProvider {
+public class EmulatorManagerFactory extends AbsProvider {
     private final Logger logger;
 
-    public EmulatorManagerFabric(Logger logger) {
+    public EmulatorManagerFactory(Logger logger) {
         this.logger = logger;
     }
 

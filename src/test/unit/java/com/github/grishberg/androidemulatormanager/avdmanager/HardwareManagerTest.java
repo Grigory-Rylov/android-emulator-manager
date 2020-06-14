@@ -2,15 +2,20 @@ package com.github.grishberg.androidemulatormanager.avdmanager;
 
 import com.github.grishberg.androidemulatormanager.DisplayMode;
 import com.github.grishberg.androidemulatormanager.EmulatorConfig;
-import com.github.grishberg.androidemulatormanager.ext.EmulatorManagerConfig;
 import com.github.grishberg.androidemulatormanager.PreferenceContext;
-import org.gradle.api.logging.Logger;
+import com.github.grishberg.androidemulatormanager.ext.EmulatorManagerConfig;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 

@@ -3,8 +3,8 @@ package com.github.grishberg.androidemulatormanager;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerException;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFactory;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerWrapper;
-import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
-import org.gradle.api.logging.Logger;
+import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFactory;
+import com.github.grishberg.androidemulatormanager.utils.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -25,7 +25,7 @@ public class AndroidEmulatorManagerTest {
     @Mock
     AdbFacade adbFacade;
     @Mock
-    EmulatorManagerFabric emulatorManagerFabric;
+    EmulatorManagerFactory emulatorManagerFabric;
     @Mock
     AvdManagerFactory avdManagerFabric;
     @Mock
