@@ -9,16 +9,16 @@ import java.io.File;
 /**
  * Creates AvdManagerWrapper for current OS.
  */
-public class AvdManagerFabric extends AbsProvider {
+public class AvdManagerFactory extends AbsProvider {
     private final PreferenceContext context;
     private final HardwareManager hardwareManager;
     private SdkManager sdkManager;
     private final Logger logger;
 
-    public AvdManagerFabric(PreferenceContext context,
-                            HardwareManager hardwareManager,
-                            SdkManager sdkManager,
-                            Logger logger) {
+    public AvdManagerFactory(PreferenceContext context,
+                             HardwareManager hardwareManager,
+                             SdkManager sdkManager,
+                             Logger logger) {
         this.context = context;
         this.hardwareManager = hardwareManager;
         this.sdkManager = sdkManager;

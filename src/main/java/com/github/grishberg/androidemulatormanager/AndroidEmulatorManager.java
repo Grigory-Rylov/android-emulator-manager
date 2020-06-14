@@ -2,7 +2,7 @@ package com.github.grishberg.androidemulatormanager;
 
 import com.android.ddmlib.IDevice;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerException;
-import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric;
+import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFactory;
 import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerWrapper;
 import com.github.grishberg.androidemulatormanager.emulator.AndroidEmulator;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerException;
@@ -35,13 +35,13 @@ public class AndroidEmulatorManager {
     private final Map<EmulatorConfig, AndroidEmulator> startedEmulators = new HashMap<>();
     private PreferenceContext context;
     private EmulatorManagerFabric emulatorManagerFabric;
-    private AvdManagerFabric avdManagerFabric;
+    private AvdManagerFactory avdManagerFabric;
     private final Logger logger;
 
     public AndroidEmulatorManager(PreferenceContext context,
                                   AdbFacade adbFacade,
                                   EmulatorManagerFabric emulatorManagerFabric,
-                                  AvdManagerFabric avdManagerFabric,
+                                  AvdManagerFactory avdManagerFabric,
                                   Logger logger) {
         this.context = context;
         this.emulatorManagerFabric = emulatorManagerFabric;

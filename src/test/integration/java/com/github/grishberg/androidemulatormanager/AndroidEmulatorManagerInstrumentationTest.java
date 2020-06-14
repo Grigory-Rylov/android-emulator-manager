@@ -1,6 +1,6 @@
 package com.github.grishberg.androidemulatormanager;
 
-import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric;
+import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFactory;
 import com.github.grishberg.androidemulatormanager.avdmanager.HardwareManager;
 import com.github.grishberg.androidemulatormanager.avdmanager.SdkManager;
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric;
@@ -34,7 +34,7 @@ public class AndroidEmulatorManagerInstrumentationTest extends BaseTestCaseWithL
 
         emulatorManager = new AndroidEmulatorManager(context, adbFacade,
                 new EmulatorManagerFabric(getLogger()),
-                new AvdManagerFabric(context, hardwareManager, sdkManager, getLogger()),
+                new AvdManagerFactory(context, hardwareManager, sdkManager, getLogger()),
                 getLogger());
 
         emulatorManager.initIfNeeded();

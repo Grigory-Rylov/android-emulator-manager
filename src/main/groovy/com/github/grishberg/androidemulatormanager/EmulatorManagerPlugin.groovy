@@ -1,6 +1,6 @@
 package com.github.grishberg.androidemulatormanager
 
-import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFabric
+import com.github.grishberg.androidemulatormanager.avdmanager.AvdManagerFactory
 import com.github.grishberg.androidemulatormanager.avdmanager.HardwareManager
 import com.github.grishberg.androidemulatormanager.avdmanager.SdkManager
 import com.github.grishberg.androidemulatormanager.emulatormanager.EmulatorManagerFabric
@@ -30,12 +30,12 @@ class EmulatorManagerPlugin implements Plugin<Project> {
         HardwareManager hardwareManager = new HardwareManager(context, project.logger)
 
         SdkManager sdkManager = new SdkManager(context, "/tools/bin/sdkmanager", project.logger)
-        AvdManagerFabric avdManagerFabric = new AvdManagerFabric(context,
+        AvdManagerFactory avdManagerFactory = new AvdManagerFactory(context,
                 hardwareManager,
                 sdkManager,
                 project.logger)
         androidEmulatorManager = new AndroidEmulatorManager(context, adbFacade,
-                emulatorManagerFabric, avdManagerFabric, project.logger)
+                emulatorManagerFabric, avdManagerFactory, project.logger)
 
         project.tasks.create(CreateAndRunEmulatorsTask.NAME, CreateAndRunEmulatorsTask) {
             emulatorManager = androidEmulatorManager
